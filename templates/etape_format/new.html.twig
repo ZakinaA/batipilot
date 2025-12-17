@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New EtapeFormat{% endblock %}
+
+{% block body %}
+    <h1>Create new EtapeFormat</h1>
+
+    {{ include('etape_format/_form.html.twig') }}
+
+    <a href="{{ path('app_etape_format_index') }}">back to list</a>
+{% endblock %}

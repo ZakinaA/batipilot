@@ -173,6 +173,8 @@ class ChantierType extends AbstractType
                             'Non' => 'non',
                             'Sans objet' => 'sans_objet'
                         ];
+                        $options['expanded'] = true;   // boutons radio
+                        $options['multiple'] = false;
                         $options['placeholder'] = false;
                     } elseif ($formType === DateType::class) {
                         $options['widget'] = 'single_text';

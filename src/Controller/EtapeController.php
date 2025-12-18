@@ -42,7 +42,8 @@ final class EtapeController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_etape_show', methods: ['GET'])]
+   // #[Route('/{id}', name: 'app_etape_show', methods: ['GET'])]
+   #[Route('/{id<\d+>}', name: 'app_etape_show', methods: ['GET'])]
     public function show(Etape $etape): Response
     {
         return $this->render('etape/show.html.twig', [
@@ -50,7 +51,8 @@ final class EtapeController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_etape_edit', methods: ['GET', 'POST'])]
+    //#[Route('/{id}/edit', name: 'app_etape_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id<\d+>}/edit', name: 'app_etape_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Etape $etape, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(EtapeType::class, $etape);
@@ -68,7 +70,8 @@ final class EtapeController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_etape_delete', methods: ['POST'])]
+    //#[Route('/{id}', name: 'app_etape_delete', methods: ['POST'])]
+    #[Route('/{id<\d+>}', name: 'app_etape_delete', methods: ['POST'])]
     public function delete(Request $request, Etape $etape, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$etape->getId(), $request->getPayload()->getString('_token'))) {

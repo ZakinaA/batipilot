@@ -1,201 +1,89 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Chantier index{% endblock %}
+{% block title %}Chantiers{% endblock %}
 
 {% block body %}
-    <h1>Chantiers</h1>
+<div class="dashboard">
 
-    <h2>Demarrés</h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Adresse</th>
-                <th>Copos</th>
-                <th>Ville</th>
-                <th>DatePrevue</th>
-                <th>DateDemarrage</th>
-                <th>DateFin</th>
-                <th>DateReception</th>
-                <th>DistanceDepot</th>
-                <th>TempsTrajet</th>
-                <th>SurfaceMaison</th>
-                <th>SurfaceCombles</th>
-                <th>Archive</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+   
+    <div class="top-bar">
+        <h1>Chantiers</h1>
+        <a href="{{ path('app_chantier_new') }}" class="btn-add">+ Nouveau chantier</a>
+    </div>
+
+    
+    <details class="current" open>
+        <summary>Démarrés <span class="count">{{ chantiers_demarres|length }}</span></summary>
+
         {% for chantier in chantiers_demarres %}
-            <tr>
-                <td>{{ chantier.id }}</td>
-                <td>{{ chantier.adresse }}</td>
-                <td>{{ chantier.copos }}</td>
-                <td>{{ chantier.ville }}</td>
-                <td>{{ chantier.datePrevue ? chantier.datePrevue|date('Y-m-d') : '' }}</td>
-                <td>{{ chantier.dateDemarrage ? chantier.dateDemarrage|date('Y-m-d') : '' }}</td>
-                <td>{{ chantier.dateFin ? chantier.dateFin|date('Y-m-d') : '' }}</td>
-                <td>{{ chantier.dateReception ? chantier.dateReception|date('Y-m-d') : '' }}</td>
-                <td>{{ chantier.distanceDepot }}</td>
-                <td>{{ chantier.tempsTrajet }}</td>
-                <td>{{ chantier.surfaceMaison }}</td>
-                <td>{{ chantier.surfaceCombles }}</td>
+            <a class="project-item" href="{{ path('app_chantier_show', {'id': chantier.id}) }}">
+                <div>
+                    <div class="client-name">
+                        {{ chantier.client.nom }}
+                        <span class="client-city">{{ chantier.ville }}</span>
+                    </div>
+                    <div class="date-info">
+                        Démarré le {{ chantier.dateDemarrage ? chantier.dateDemarrage|date('d/m/Y') : '-' }}
+                    </div>
+                </div>
 
-                <td>
-                    <a href="{{ path('app_chantier_show', {'id': chantier.id}) }}">show</a>
-                    <a href="{{ path('app_chantier_edit', {'id': chantier.id}) }}">edit</a>
-                </td>
-            </tr>
+                <div class="progress-container">
+                    <div class="progress-bg">
+                        <div class="progress-fill bg-blue" style="width: 40%"></div>
+                    </div>
+                    <div class="pct-text">40%</div>
+                </div>
+            </a>
         {% else %}
-            <tr>
-                <td colspan="14">no records found</td>
-            </tr>
+            <p style="padding:15px;">Aucun chantier</p>
         {% endfor %}
-        </tbody>
-    </table>
-    <h2>À venir</h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Adresse</th>
-                <th>Copos</th>
-                <th>Ville</th>
-                <th>DatePrevue</th>
-                <th>DateDemarrage</th>
-                <th>DateFin</th>
-                <th>DateReception</th>
-                <th>DistanceDepot</th>
-                <th>TempsTrajet</th>
-                <th>SurfaceMaison</th>
-                <th>SurfaceCombles</th>
-                <th>Archive</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    </details>
+
+    
+    <details class="upcoming">
+        <summary>À venir <span class="count">{{ chantiers_avenir|length }}</span></summary>
+
         {% for chantier in chantiers_avenir %}
-            <tr>
-                <td>{{ chantier.id }}</td>
-                <td>{{ chantier.adresse }}</td>
-                <td>{{ chantier.copos }}</td>
-                <td>{{ chantier.ville }}</td>
-                <td>{{ chantier.datePrevue ? chantier.datePrevue|date('Y-m-d') : '' }}</td>
-                <td>{{ chantier.dateDemarrage ? chantier.dateDemarrage|date('Y-m-d') : '' }}</td>
-                <td>{{ chantier.dateFin ? chantier.dateFin|date('Y-m-d') : '' }}</td>
-                <td>{{ chantier.dateReception ? chantier.dateReception|date('Y-m-d') : '' }}</td>
-                <td>{{ chantier.distanceDepot }}</td>
-                <td>{{ chantier.tempsTrajet }}</td>
-                <td>{{ chantier.surfaceMaison }}</td>
-                <td>{{ chantier.surfaceCombles }}</td>
-
-                <td>
-                    <a href="{{ path('app_chantier_show', {'id': chantier.id}) }}">show</a>
-                    <a href="{{ path('app_chantier_edit', {'id': chantier.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="14">no records found</td>
-            </tr>
+            <div class="project-item">
+                <div>
+                    <div class="client-name">{{ chantier.client.nom }}</div>
+                    <div class="date-info">
+                        Prévu le {{ chantier.datePrevue|date('d/m/Y') }}
+                    </div>
+                </div>
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
-    <h2>Terminés</h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Adresse</th>
-                <th>Copos</th>
-                <th>Ville</th>
-                <th>DatePrevue</th>
-                <th>DateDemarrage</th>
-                <th>DateFin</th>
-                <th>DateReception</th>
-                <th>DistanceDepot</th>
-                <th>TempsTrajet</th>
-                <th>SurfaceMaison</th>
-                <th>SurfaceCombles</th>
-                <th>Archive</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    </details>
+
+   
+    <details class="completed">
+        <summary>Terminés <span class="count">{{ chantiers_terminer|length }}</span></summary>
+
         {% for chantier in chantiers_terminer %}
-            <tr>
-                <td>{{ chantier.id }}</td>
-                <td>{{ chantier.adresse }}</td>
-                <td>{{ chantier.copos }}</td>
-                <td>{{ chantier.ville }}</td>
-                <td>{{ chantier.datePrevue ? chantier.datePrevue|date('Y-m-d') : '' }}</td>
-                <td>{{ chantier.dateDemarrage ? chantier.dateDemarrage|date('Y-m-d') : '' }}</td>
-                <td>{{ chantier.dateFin ? chantier.dateFin|date('Y-m-d') : '' }}</td>
-                <td>{{ chantier.dateReception ? chantier.dateReception|date('Y-m-d') : '' }}</td>
-                <td>{{ chantier.distanceDepot }}</td>
-                <td>{{ chantier.tempsTrajet }}</td>
-                <td>{{ chantier.surfaceMaison }}</td>
-                <td>{{ chantier.surfaceCombles }}</td>
-
-                <td>
-                    <a href="{{ path('app_chantier_show', {'id': chantier.id}) }}">show</a>
-                    <a href="{{ path('app_chantier_edit', {'id': chantier.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="14">no records found</td>
-            </tr>
+            <div class="project-item">
+                <div>
+                    <div class="client-name">{{ chantier.client.nom }}</div>
+                    <div class="date-info">
+                        Réception le {{ chantier.dateReception|date('d/m/Y') }}
+                    </div>
+                </div>
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
-    <h2>Archives<h2>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Adresse</th>
-                <th>Copos</th>
-                <th>Ville</th>
-                <th>DatePrevue</th>
-                <th>DateDemarrage</th>
-                <th>DateFin</th>
-                <th>DateReception</th>
-                <th>DistanceDepot</th>
-                <th>TempsTrajet</th>
-                <th>SurfaceMaison</th>
-                <th>SurfaceCombles</th>
-                <th>Archive</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    </details>
+
+    
+    <details class="archived">
+        <summary>Archives <span class="count">{{ chantiers_archiver|length }}</span></summary>
+
         {% for chantier in chantiers_archiver %}
-            <tr>
-                <td>{{ chantier.id }}</td>
-                <td>{{ chantier.adresse }}</td>
-                <td>{{ chantier.copos }}</td>
-                <td>{{ chantier.ville }}</td>
-                <td>{{ chantier.datePrevue ? chantier.datePrevue|date('Y-m-d') : '' }}</td>
-                <td>{{ chantier.dateDemarrage ? chantier.dateDemarrage|date('Y-m-d') : '' }}</td>
-                <td>{{ chantier.dateFin ? chantier.dateFin|date('Y-m-d') : '' }}</td>
-                <td>{{ chantier.dateReception ? chantier.dateReception|date('Y-m-d') : '' }}</td>
-                <td>{{ chantier.distanceDepot }}</td>
-                <td>{{ chantier.tempsTrajet }}</td>
-                <td>{{ chantier.surfaceMaison }}</td>
-                <td>{{ chantier.surfaceCombles }}</td>
-
-                <td>
-                    <a href="{{ path('app_chantier_show', {'id': chantier.id}) }}">show</a>
-                    <a href="{{ path('app_chantier_edit', {'id': chantier.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="14">no records found</td>
-            </tr>
+            <div class="project-item">
+                <div>
+                    <div class="client-name">{{ chantier.client.nom }}</div>
+                    <div class="date-info">{{ chantier.ville }}</div>
+                </div>
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
-    <a href="{{ path('app_chantier_new') }}">Create new</a>
+    </details>
+
+</div>
 {% endblock %}

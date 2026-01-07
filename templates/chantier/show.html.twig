@@ -1,209 +1,159 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Chantier - {{ chantier.ville }}{% endblock %}
+{% block title %}Chantier – {{ chantier.ville }}{% endblock %}
 
 {% block body %}
-<div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
+<div class="container">
+
+    {# ================= HEADER ================= #}
+    <div class="header-fiche">
         <h1>Chantier : {{ chantier.ville }}</h1>
+
         <div>
-            <a href="{{ path('app_chantier_edit', {'id': chantier.id}) }}" class="btn btn-warning">
-                <i class="bi bi-pencil"></i> Modifier
+            <a href="{{ path('app_chantier_edit', {'id': chantier.id}) }}" class="btn-back">
+                Modifier
             </a>
-            <a href="{{ path('app_chantier_index') }}" class="btn btn-secondary">
-                <i class="bi bi-arrow-left"></i> Retour à la liste
+            <a href="{{ path('app_chantier_index') }}" class="btn-back">
+                ← Retour
             </a>
         </div>
     </div>
 
+    {# ================= FLASH ================= #}
     {% for message in app.flashes('success') %}
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <div class="card" style="border-top-color: var(--success); margin-bottom: 20px;">
             {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     {% endfor %}
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card mb-4">
-                <div class="card-header bg-info text-white">
-                    <h3 class="mb-0"><i class="bi bi-person-fill"></i> Informations Client</h3>
+    {# ================= INFOS ================= #}
+    <div class="grid-info">
+
+        {# -------- CLIENT -------- #}
+        <div class="card">
+            <h2>Client</h2>
+
+            {% if chantier.client %}
+                <div class="info-row-grid">
+                    <div class="info-col">
+                        <span class="label">Nom</span>
+                        <span class="value">{{ chantier.client.nom }}</span>
+                    </div>
+                    <div class="info-col">
+                        <span class="label">Prénom</span>
+                        <span class="value">{{ chantier.client.prenom ?? '-' }}</span>
+                    </div>
                 </div>
-                <div class="card-body">
-                    {% if chantier.client %}
-                        <table class="table table-borderless">
-                            <tr>
-                                <th width="40%">Nom :</th>
-                                <td>{{ chantier.client.nom }}</td>
-                            </tr>
-                            <tr>
-                                <th>Prénom :</th>
-                                <td>{{ chantier.client.prenom ?? '-' }}</td>
-                            </tr>
-                            <tr>
-                                <th>Téléphone :</th>
-                                <td>{{ chantier.client.telephone ?? '-' }}</td>
-                            </tr>
-                            <tr>
-                                <th>Email :</th>
-                                <td>{{ chantier.client.mail ?? '-' }}</td>
-                            </tr>
-                        </table>
-                    {% else %}
-                        <p class="text-muted">Aucun client associé</p>
-                    {% endif %}
+
+                <div class="info-row-grid">
+                    <div class="info-col">
+                        <span class="label">Téléphone</span>
+                        <span class="value">{{ chantier.client.telephone ?? '-' }}</span>
+                    </div>
+                    <div class="info-col">
+                        <span class="label">Email</span>
+                        <span class="value">{{ chantier.client.mail ?? '-' }}</span>
+                    </div>
+                </div>
+            {% else %}
+                <small>Aucun client associé</small>
+            {% endif %}
+        </div>
+
+        {# -------- CHANTIER -------- #}
+        <div class="card">
+            <h2>Chantier</h2>
+
+            <div class="info-row-grid">
+                <div class="info-col">
+                    <span class="label">Adresse</span>
+                    <span class="value">{{ chantier.adresse ?? '-' }}</span>
+                </div>
+                <div class="info-col">
+                    <span class="label">Ville</span>
+                    <span class="value">{{ chantier.ville }}</span>
+                </div>
+            </div>
+
+            <div class="info-row-grid">
+                <div class="info-col">
+                    <span class="label">Code postal</span>
+                    <span class="value">{{ chantier.copos ?? '-' }}</span>
+                </div>
+                <div class="info-col">
+                    <span class="label">Surface maison</span>
+                    <span class="value">{{ chantier.surfaceMaison ? chantier.surfaceMaison ~ ' m²' : '-' }}</span>
+                </div>
+            </div>
+
+            <div class="info-row-grid">
+                <div class="info-col">
+                    <span class="label">Date démarrage</span>
+                    <span class="value">{{ chantier.dateDemarrage ? chantier.dateDemarrage|date('d/m/Y') : '-' }}</span>
+                </div>
+                <div class="info-col">
+                    <span class="label">Date fin</span>
+                    <span class="value">{{ chantier.dateFin ? chantier.dateFin|date('d/m/Y') : '-' }}</span>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-6">
-            <div class="card mb-4">
-                <div class="card-header bg-primary text-white">
-                    <h3 class="mb-0"><i class="bi bi-building"></i> Informations Chantier</h3>
-                </div>
-                <div class="card-body">
-                    <table class="table table-borderless">
-                        <tr>
-                            <th width="50%">Adresse :</th>
-                            <td>{{ chantier.adresse ?? '-' }}</td>
-                        </tr>
-                        <tr>
-                            <th>Code Postal :</th>
-                            <td>{{ chantier.copos ?? '-' }}</td>
-                        </tr>
-                        <tr>
-                            <th>Ville :</th>
-                            <td><strong>{{ chantier.ville }}</strong></td>
-                        </tr>
-                        <tr>
-                            <th>Date Prévue :</th>
-                            <td>{{ chantier.datePrevue ? chantier.datePrevue|date('d/m/Y') : '-' }}</td>
-                        </tr>
-                        <tr>
-                            <th>Date de Démarrage :</th>
-                            <td>{{ chantier.dateDemarrage ? chantier.dateDemarrage|date('d/m/Y') : '-' }}</td>
-                        </tr>
-                        <tr>
-                            <th>Date de Fin :</th>
-                            <td>{{ chantier.dateFin ? chantier.dateFin|date('d/m/Y') : '-' }}</td>
-                        </tr>
-                        <tr>
-                            <th>Date de Réception :</th>
-                            <td>{{ chantier.dateReception ? chantier.dateReception|date('d/m/Y') : '-' }}</td>
-                        </tr>
-                        <tr>
-                            <th>Distance Dépôt :</th>
-                            <td>{{ chantier.distanceDepot ? chantier.distanceDepot ~ ' km' : '-' }}</td>
-                        </tr>
-                        <tr>
-                            <th>Temps de Trajet :</th>
-                            <td>{{ chantier.tempsTrajet ? chantier.tempsTrajet ~ ' min' : '-' }}</td>
-                        </tr>
-                        <tr>
-                            <th>Surface Maison :</th>
-                            <td>{{ chantier.surfaceMaison ? chantier.surfaceMaison ~ ' m²' : '-' }}</td>
-                        </tr>
-                        <tr>
-                            <th>Surface Combles :</th>
-                            <td>{{ chantier.surfaceCombles ? chantier.surfaceCombles ~ ' m²' : '-' }}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
     </div>
 
-    <div class="card mb-4">
-        <div class="card-header bg-success text-white">
-            <h3 class="mb-0"><i class="bi bi-check2-square"></i> Étapes du Chantier</h3>
-        </div>
-        <div class="card-body">
-            {% for cp in chantier.chantierPostes %}
-                <h1>{{cp.poste.libelle}}  {{cp.montantHT}}  {{cp.montantTTC}}</h1>
+    {# ================= POSTES ================= #}
+    <h2 style="margin-bottom: 15px;">Postes & étapes</h2>
 
+    {% for cp in chantier.chantierPostes %}
+        {# slug recommandé : etude, gros, second, tech #}
+        <details class="poste-{{ cp.poste.slug ?? 'tech' }}">
+            <summary>
+                <span>{{ cp.poste.libelle }}</span>
+                <span class="ttc-label">{{ cp.montantTTC }} € TTC</span>
+            </summary>
+
+            <div class="list-content">
                 {% for ce in chantier.chantierEtapes %}
-
                     {% if ce.etape.poste.id == cp.poste.id %}
-                        <strong>{{ ce.etape.libelle }} </strong>
-                        <span class="ms-2">
-                                            {% set formatId = ce.etape.etapeFormat.id %}
+                        <div class="task-row">
+                            <span>{{ ce.etape.libelle }}</span>
+                            <span>
+                                {% set formatId = ce.etape.etapeFormat.id %}
 
-                                            {% if formatId == 1 %}
-                                                {# Oui, non, sans objet #}
-                                                {% if ce.valBoolean is not null %}
-                                                    <span class="badge bg-{{ ce.valBoolean ? 'success' : 'danger' }}">
-                                                        {{ ce.valBoolean ? 'Oui' : 'Non' }}
-                                                    </span>
-                                                {% else %}
-                                                    <span class="badge bg-secondary">Sans objet</span>
-                                                {% endif %}
-                                            {% elseif formatId == 2 %}
-                                                {# Date #}
-                                                {{ ce.valDate ? ce.valDate|date('d/m/Y') : '-' }}
-                                            {% elseif formatId == 3 %}
-                                                {# Date et heure #}
-                                                {{ ce.valDateHeure ? ce.valDateHeure|date('d/m/Y H:i') : '-' }}
-                                            {% elseif formatId == 4 %}
-                                                {# Texte #}
-                                                {{ ce.valText ?? '-' }}
-                                            {% endif %}
-                                        </span></br>
+                                {% if formatId == 1 %}
+                                    {% if ce.valBoolean is not null %}
+                                        <span class="badge badge-ok">
+                                            {{ ce.valBoolean ? 'Oui' : 'Non' }}
+                                        </span>
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                {% elseif formatId == 2 %}
+                                    {{ ce.valDate ? ce.valDate|date('d/m/Y') : '-' }}
+                                {% elseif formatId == 3 %}
+                                    {{ ce.valDateHeure ? ce.valDateHeure|date('d/m/Y H:i') : '-' }}
+                                {% elseif formatId == 4 %}
+                                    {{ ce.valText ?? '-' }}
+                                {% endif %}
+                            </span>
+                        </div>
                     {% endif %}
-
                 {% endfor %}
+            </div>
+        </details>
+    {% else %}
+        <small>Aucun poste défini</small>
+    {% endfor %}
 
+    {# ================= SUPPRESSION ================= #}
+    <form method="post"
+          action="{{ path('app_chantier_delete', {'id': chantier.id}) }}"
+          onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce chantier ?');"
+          style="margin-top: 30px;">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ chantier.id) }}">
+        <button class="btn-back" style="border-color: var(--danger); color: var(--danger);">
+            Supprimer le chantier
+        </button>
+    </form>
 
-
-            {% endfor %}
-
-
-
-
-
-
-
-
-
-        </div>
-    </div>
-
-    <div class="mb-4">
-        <form method="post" action="{{ path('app_chantier_delete', {'id': chantier.id}) }}"
-              onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce chantier ?');">
-            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ chantier.id) }}">
-            <button type="submit" class="btn btn-danger">
-                <i class="bi bi-trash"></i> Supprimer le chantier
-            </button>
-        </form>
-    </div>
 </div>
-
-<style>
-    .poste-section {
-        background-color: #f8f9fa;
-        padding: 20px;
-        border-radius: 8px;
-        border-left: 4px solid #28a745;
-    }
-
-    .poste-section h4 {
-        color: #28a745;
-        font-weight: 600;
-    }
-
-    .etape-item {
-        padding: 10px;
-        background-color: white;
-        border-radius: 5px;
-        border: 1px solid #dee2e6;
-    }
-
-    .card-header h3 {
-        font-size: 1.25rem;
-    }
-
-    .card-header i {
-        margin-right: 8px;
-    }
-</style>
 {% endblock %}

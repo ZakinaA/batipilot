@@ -8,113 +8,216 @@
 
     {{ form_start(form, {'attr': {'class': 'chantier-form'}}) }}
 
-    <div class="card mb-4">
-        <div class="card-header bg-info text-white">
-            <h3 class="mb-0"><i class="bi bi-person-fill"></i> Informations du client</h3>
-        </div>
-        <div class="card-body">
-            <div class="row mb-3">
-                <div class="col-md-12">
-                    {{ form_row(form.client) }}
-                    <small class="text-muted">Client actuel : {{ chantier.client ? chantier.client.nom ~ ' ' ~ chantier.client.prenom : 'Aucun' }}</small>
-                </div>
-            </div>
-
-
-        </div>
+    {# Section Client #}
+ <div class="poste-section_ClCh">
+    <div class="poste-header">
+        <h4 class="mb-0">
+            <i class="bi bi-person-fill"></i> Informations du client
+        </h4>
     </div>
 
-    <div class="card mb-4">
-        <div class="card-header bg-primary text-white">
-            <h3 class="mb-0"><i class="bi bi-building"></i> Informations du chantier</h3>
+    <div class="etapes-grid">
+        <div class="etape-field">
+            {{ form_label(form.client.nom, null, {'label_attr': {'class': 'etape-label'}}) }}
+            <div class="etape-input">
+                {{ form_widget(form.client.nom, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.client.nom) }}
+            </div>
         </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-12">
-                    {{ form_row(form.adresse) }}
-                </div>
+
+        <div class="etape-field">
+            {{ form_label(form.client.prenom, null, {'label_attr': {'class': 'etape-label'}}) }}
+            <div class="etape-input">
+                {{ form_widget(form.client.prenom, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.client.prenom) }}
             </div>
-            <div class="row">
-                <div class="col-md-4">
-                    {{ form_row(form.copos) }}
-                </div>
-                <div class="col-md-8">
-                    {{ form_row(form.ville) }}
-                </div>
+        </div>
+
+        <div class="etape-field">
+            {{ form_label(form.client.telephone, null, {'label_attr': {'class': 'etape-label'}}) }}
+            <div class="etape-input">
+                {{ form_widget(form.client.telephone, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.client.telephone) }}
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    {{ form_row(form.datePrevue) }}
-                </div>
-                <div class="col-md-6">
-                    {{ form_row(form.dateDemarrage) }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    {{ form_row(form.dateFin) }}
-                </div>
-                <div class="col-md-6">
-                    {{ form_row(form.dateReception) }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    {{ form_row(form.distanceDepot) }}
-                </div>
-                <div class="col-md-4">
-                    {{ form_row(form.tempsTrajet) }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    {{ form_row(form.surfaceMaison) }}
-                </div>
-                <div class="col-md-6">
-                    {{ form_row(form.surfaceCombles) }}
-                </div>
+        </div>
+
+        <div class="etape-field">
+            {{ form_label(form.client.mail, null, {'label_attr': {'class': 'etape-label'}}) }}
+            <div class="etape-input">
+                {{ form_widget(form.client.mail, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.client.mail) }}
             </div>
         </div>
     </div>
+ </div>
 
+    {# Section Chantier #}
+<div class="poste-section_ClCh">
+    <div class="poste-header">
+        <h4 class="mb-0">
+            <i class="bi bi-building"></i> Informations du chantier
+        </h4>
+    </div>
+
+    <div class="etapes-grid">
+
+        <div class="etape-field">
+            {{ form_label(form.adresse, null, {'label_attr': {'class': 'etape-label'}}) }}
+            <div class="etape-input">
+                {{ form_widget(form.adresse, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.adresse) }}
+            </div>
+        </div>
+
+        <div class="etape-field">
+            {{ form_label(form.copos, null, {'label_attr': {'class': 'etape-label'}}) }}
+            <div class="etape-input">
+                {{ form_widget(form.copos, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.copos) }}
+            </div>
+        </div>
+
+        <div class="etape-field">
+            {{ form_label(form.ville, null, {'label_attr': {'class': 'etape-label'}}) }}
+            <div class="etape-input">
+                {{ form_widget(form.ville, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.ville) }}
+            </div>
+        </div>
+
+        <div class="etape-field">
+            {{ form_label(form.datePrevue, null, {'label_attr': {'class': 'etape-label'}}) }}
+            <div class="etape-input">
+                {{ form_widget(form.datePrevue, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.datePrevue) }}
+            </div>
+        </div>
+
+        <div class="etape-field">
+            {{ form_label(form.dateDemarrage, null, {'label_attr': {'class': 'etape-label'}}) }}
+            <div class="etape-input">
+                {{ form_widget(form.dateDemarrage, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.dateDemarrage) }}
+            </div>
+        </div>
+
+        <div class="etape-field">
+            {{ form_label(form.dateFin, null, {'label_attr': {'class': 'etape-label'}}) }}
+            <div class="etape-input">
+                {{ form_widget(form.dateFin, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.dateFin) }}
+            </div>
+        </div>
+
+        <div class="etape-field">
+            {{ form_label(form.dateReception, null, {'label_attr': {'class': 'etape-label'}}) }}
+            <div class="etape-input">
+                {{ form_widget(form.dateReception, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.dateReception) }}
+            </div>
+        </div>
+
+        <div class="etape-field">
+            {{ form_label(form.distanceDepot, null, {'label_attr': {'class': 'etape-label'}}) }}
+            <div class="etape-input">
+                {{ form_widget(form.distanceDepot, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.distanceDepot) }}
+            </div>
+        </div>
+
+        <div class="etape-field">
+            {{ form_label(form.tempsTrajet, null, {'label_attr': {'class': 'etape-label'}}) }}
+            <div class="etape-input">
+                {{ form_widget(form.tempsTrajet, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.tempsTrajet) }}
+            </div>
+        </div>
+
+        <div class="etape-field">
+            {{ form_label(form.surfaceMaison, null, {'label_attr': {'class': 'etape-label'}}) }}
+            <div class="etape-input">
+                {{ form_widget(form.surfaceMaison, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.surfaceMaison) }}
+            </div>
+        </div>
+
+        <div class="etape-field">
+            {{ form_label(form.surfaceCombles, null, {'label_attr': {'class': 'etape-label'}}) }}
+            <div class="etape-input">
+                {{ form_widget(form.surfaceCombles, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.surfaceCombles) }}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+    {# Section Postes et Étapes #}
     <div class="card mb-4">
         <div class="card-header bg-success text-white">
-            <h3 class="mb-0"><i class="bi bi-check2-square"></i> Étapes par poste</h3>
+            <h3 class="mb-0"><i class="bi bi-check2-square"></i> Postes et étapes</h3>
         </div>
         <div class="card-body">
-            {% set current_poste_id = null %}
-            {% set postes_affiches = {} %}
-
-            {% for child in form.children %}
-                {% if child.vars.name starts with 'etape_' %}
-                    {% set poste_id = child.vars.attr['data-poste-id'] ?? '' %}
-                    {% set poste_nom = child.vars.attr['data-poste-nom'] ?? '' %}
-
-                    {# Vérifier si on change de poste #}
-                    {% if poste_id != current_poste_id %}
-                        {% if current_poste_id is not null %}
-                            </div></div> {# Fermer le poste précédent #}
-                        {% endif %}
-
-                        {% set current_poste_id = poste_id %}
-                        {% set postes_affiches = postes_affiches|merge({(poste_id): true}) %}
-
-                        <div class="poste-section mb-4">
-                            <h4 class="border-bottom pb-2 mb-3">
-                                <i class="bi bi-folder"></i> {{ poste_nom }}
+            {% for poste in postes %}
+                <div class="poste-section mb-4">
+                    {# En-tête du poste avec montants HT et TTC #}
+                    <div class="poste-header">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="mb-0">
+                                <i class="bi bi-folder"></i> {{ poste.libelle }}
                             </h4>
-                            <div class="row">
-                    {% endif %}
-
-                    <div class="col-md-6 mb-3">
-                        {{ form_row(child) }}
+                            <div class="poste-montants d-flex gap-3">
+                                <div class="montant-field">
+                                    {{ form_label(form['poste_' ~ poste.id ~ '_montantHT']) }}
+                                    {{ form_widget(form['poste_' ~ poste.id ~ '_montantHT']) }}
+                                </div>
+                                <div class="montant-field">
+                                    {{ form_label(form['poste_' ~ poste.id ~ '_montantTTC']) }}
+                                    {{ form_widget(form['poste_' ~ poste.id ~ '_montantTTC']) }}
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                {% endif %}
-            {% endfor %}
+                 
+                    {# Étapes du poste #}
+                    <div class="etapes-grid">
+                        {% for etape in poste.etapes %}
+                            {% if etape.archive == 0 %}
+                                {% set fieldName = 'etape_' ~ etape.id %}
+                                {% if form[fieldName] is defined %}
+                                    <div class="etape-field">
+                                        <label class="etape-label">{{ etape.libelle }}</label>
+                                        <div class="etape-input">
+                                            {% set etapeFormat = etape.etapeFormat %}
 
-            {% if current_poste_id is not null %}
-                </div></div> {# Fermer le dernier poste #}
-            {% endif %}
+                                            {# Format 1: Oui/Non/Sans objet - Radio buttons #}
+                                            {% if etapeFormat and etapeFormat.id == 1 %}
+                                                {{ form_widget(form[fieldName]) }}
+
+                                            {# Format 2: Date #}
+                                            {% elseif etapeFormat and etapeFormat.id == 2 %}
+                                                {{ form_widget(form[fieldName], {'attr': {'class': 'form-control'}}) }}
+
+                                            {# Format 3: Date et heure #}
+                                            {% elseif etapeFormat and etapeFormat.id == 3 %}
+                                                {{ form_widget(form[fieldName], {'attr': {'class': 'form-control'}}) }}
+
+                                            {# Format 4: Texte #}
+                                            {% elseif etapeFormat and etapeFormat.id == 4 %}
+                                                {{ form_widget(form[fieldName], {'attr': {'class': 'form-control'}}) }}
+
+                                            {# Par défaut: texte #}
+                                            {% else %}
+                                                {{ form_widget(form[fieldName], {'attr': {'class': 'form-control'}}) }}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </div>
 
@@ -129,36 +232,6 @@
 
     {{ form_end(form) }}
 </div>
-
-<style>
-    .poste-section {
-        background-color: #f8f9fa;
-        padding: 20px;
-        border-radius: 8px;
-        border-left: 4px solid #28a745;
-    }
-
-    .poste-section h4 {
-        color: #28a745;
-        font-weight: 600;
-    }
-
-    .nouveau-client-section {
-        background-color: #f8f9fa;
-        padding: 15px;
-        border-radius: 5px;
-        border: 1px dashed #6c757d;
-        transition: opacity 0.3s ease;
-    }
-
-    .card-header h3 {
-        font-size: 1.25rem;
-    }
-
-    .card-header i {
-        margin-right: 8px;
-    }
-</style>
 
 <script>
     // Gérer l'affichage conditionnel du formulaire nouveau client

@@ -235,9 +235,7 @@
         margin-right: 8px;
     }
 
-    .card-body {
-        padding: 1.5rem;
-    }
+    
 
     /* Section poste */
     .poste-section {
@@ -245,6 +243,11 @@
         padding: 20px;
         border-radius: 8px;
         border-left: 4px solid #28a745;
+    }
+    .poste-section_ClCh {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
     }
 
     .poste-header h4 {
@@ -350,7 +353,7 @@
     }
 
     .form-control:focus {
-        border-color: #80bdff;
+        border-color: #ffffff;
         box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
     }
 
@@ -400,3 +403,4 @@
             width: 100%;
         }
     }
+    

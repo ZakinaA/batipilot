@@ -212,3 +212,191 @@
         small { display: block; line-height: 1.2; }
 
         @media (max-width: 768px) { .grid-info { grid-template-columns: 1fr; } .team-table { display: block; overflow-x: auto; } }
+
+        /* Styles de base */
+    .card {
+        border: none;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        border-radius: 8px;
+    }
+
+    .card-header {
+        border-bottom: none;
+        padding: 1rem 1.5rem;
+        border-radius: 8px 8px 0 0;
+    }
+
+    .card-header h3 {
+        font-size: 1.25rem;
+        margin: 0;
+    }
+
+    .card-header i {
+        margin-right: 8px;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    /* Section poste */
+    .poste-section {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        border-left: 4px solid #28a745;
+    }
+
+    .poste-header h4 {
+        color: #28a745;
+        font-weight: 600;
+        font-size: 1.2rem;
+    }
+
+    .poste-header {
+        border-bottom: 2px solid #dee2e6;
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+    }
+
+    /* Montants HT et TTC */
+    .poste-montants {
+        display: flex;
+        align-items: center;
+    }
+
+    .montant-field {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .montant-field label {
+        margin: 0;
+        font-weight: 600;
+        color: #495057;
+        white-space: nowrap;
+        font-size: 0.9rem;
+    }
+
+    .montant-field input {
+        width: 130px;
+        padding: 0.4rem 0.6rem;
+        font-size: 0.9rem;
+    }
+
+    /* Grille des étapes */
+    .etapes-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .etape-field {
+        background-color: white;
+        padding: 15px;
+        border-radius: 6px;
+        border: 1px solid #dee2e6;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .etape-field:hover {
+        border-color: #28a745;
+        box-shadow: 0 2px 4px rgba(40,167,69,0.1);
+    }
+
+    .etape-label {
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 10px;
+        font-size: 0.95rem;
+    }
+
+    .etape-input {
+        flex: 1;
+    }
+
+    /* Radio buttons pour Oui/Non/Sans objet */
+    .etape-input .form-check {
+        display: inline-block;
+        margin-right: 15px;
+        margin-bottom: 5px;
+    }
+
+    .form-check-input {
+        cursor: pointer;
+        margin-top: 0.2rem;
+    }
+
+    .form-check-label {
+        cursor: pointer;
+        margin-left: 0.35rem;
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+
+    .form-check-input:checked + .form-check-label {
+        color: #28a745;
+        font-weight: 500;
+    }
+
+    /* Champs de formulaire */
+    .form-control {
+        border: 1px solid #ced4da;
+        border-radius: 0.375rem;
+        padding: 0.5rem 0.75rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .form-control:focus {
+        border-color: #80bdff;
+        box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+    }
+
+    /* Boutons */
+    .btn-lg {
+        padding: 0.75rem 1.5rem;
+        font-size: 1.1rem;
+        border-radius: 0.375rem;
+        font-weight: 500;
+    }
+
+    .btn i {
+        margin-right: 6px;
+    }
+
+    /* Espacement */
+    .g-3 {
+        --bs-gutter-x: 1rem;
+        --bs-gutter-y: 1rem;
+    }
+
+    .gap-3 {
+        gap: 1rem !important;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .etapes-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .poste-header .d-flex {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+        }
+
+        .poste-montants {
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        .montant-field {
+            flex: 1;
+        }
+
+        .montant-field input {
+            width: 100%;
+        }
+    }

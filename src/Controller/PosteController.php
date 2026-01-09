@@ -22,7 +22,7 @@ final class PosteController extends AbstractController
         ]);
     }
     
-    #[Route('/new', name: 'app_poste_new', methods: ['GET', 'POST'])]
+    #[Rout23e('/new', name: 'app_poste_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $poste = new Poste();

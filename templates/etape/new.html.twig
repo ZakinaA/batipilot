@@ -1,11 +1,72 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Etape{% endblock %}
+{% block title %}Nouvelle étape{% endblock %}
 
 {% block body %}
-    <h1>Create new Etape</h1>
+<div class="container mt-5">
 
-    {{ include('etape/_form.html.twig') }}
+    <h1 class="mb-4">
+        <i class="bi bi-list-check"></i> Créer une nouvelle étape
+    </h1>
 
-    <a href="{{ path('app_etape_index') }}">back to list</a>
+    {{ form_start(form, {'attr': {'class': 'etape-form'}}) }}
+
+    <div class="poste-section_ClCh">
+        <div class="poste-header">
+            <h4 class="mb-0">
+                <i class="bi bi-flag"></i> Informations de l’étape
+            </h4>
+        </div>
+
+        <div class="etapes-grid">
+
+            <div class="etape-field">
+                {{ form_label(form.libelle, null, {'label_attr': {'class': 'etape-label'}}) }}
+                <div class="etape-input">
+                    {{ form_widget(form.libelle, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.libelle) }}
+                </div>
+            </div>
+
+            <div class="etape-field">
+                {{ form_label(form.poste, null, {'label_attr': {'class': 'etape-label'}}) }}
+                <div class="etape-input">
+                    {{ form_widget(form.poste, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.poste) }}
+                </div>
+            </div>
+
+            <div class="etape-field">
+                {{ form_label(form.etapeFormat, null, {'label_attr': {'class': 'etape-label'}}) }}
+                <div class="etape-input">
+                    {{ form_widget(form.etapeFormat, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.etapeFormat) }}
+                </div>
+            </div>
+
+            <div class="etape-field">
+                {{ form_label(form.archive, null, {'label_attr': {'class': 'etape-label'}}) }}
+                <div class="etape-input">
+                    {{ form_widget(form.archive) }}
+                    {{ form_errors(form.archive) }}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between mt-4">
+        <a href="{{ path('app_etape_index') }}" class="btn btn-secondary btn-lg">
+            <i class="bi bi-arrow-left"></i> Annuler
+        </a>
+
+        <button class="btn btn-primary btn-lg">
+            <i class="bi bi-save"></i> Enregistrer l’étape
+        </button>
+    </div>
+
+    {{ form_widget(form._token) }}
+    {{ form_end(form, {'render_rest': false}) }}
+
+</div>
 {% endblock %}

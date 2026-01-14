@@ -13,7 +13,8 @@
 
     <div class="white-table">
         <div class="white-table-header">
-            <div>Type</div>
+            <div>Libellé</div>
+            <div>Actions</div>
         </div>
 
         {% for etape_format in etape_formats %}
@@ -21,6 +22,15 @@
                 <div class="white-table-cell">
                     {{ etape_format.libelle }}
                 </div>
+                <div class="white-table-cell actions">
+                    <a href="{{ path('app_etape_format_edit', {id: etape_format.id}) }}" class="btn-action">
+                        Modifier
+                    </a>
+                </div>
+            </div>
+        {% else %}
+            <div class="white-table-empty">
+                Aucun format d’étape enregistré.
             </div>
         {% endfor %}
     </div>

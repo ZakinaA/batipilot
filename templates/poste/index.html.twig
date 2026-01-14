@@ -1,24 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Poste index{% endblock %}
+{% block title %}Postes{% endblock %}
 
 {% block body %}
 <div class="dashboard">
+
     <div class="top-bar">
         <h1>Postes</h1>
-        <a href="{{ path('app_poste_new') }}" class="btn-add">+ Nouveau Postes</a>
+        <a href="{{ path('app_poste_new') }}" class="btn-add">+ Nouveau poste</a>
     </div>
+
     {% for poste in postes %}
-        <div class="posts-list">
-            <a href="{{ path('app_poste_show', {'id': poste.id}) }}" class="post-link">
-                <div class="form-check-label">
-                    <div class="post-card">
-                        {{ poste.libelle }}
-                    </div>
-                </div>
-            </a>
-        </div>
+        <details class="current">
+            <summary>
+                {{ poste.libelle }}
+                <span class="count">{{ poste.etapes|length }}</span>
+            </summary>
+
+            {% if poste.etapes|length > 0 %}
+                {% for etape in poste.etapes %}
+                    <a class="project-item"
+                       href="{{ path('app_etape_show', {'id': etape.id}) }}">
+                        <div>
+                            <div class="client-name">
+                                {{ etape.libelle }}
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            {% else %}
+                <p style="padding:15px;">Aucune étape pour ce poste</p>
+            {% endif %}
+        </details>
     {% endfor %}
+
 </div>
 {% endblock %}
-

@@ -3,23 +3,5 @@
 {% block title %}Poste index{% endblock %}
 
 {% block body %}
-    <div class="dashboard">
-   
-    <div class="top-bar">
-        <h1>Etapes</h1>
-        <a href="{{ path('app_etape_new') }}" class="btn-add">+ Nouvelle etapes</a>
-    </div>
-    {% for etape in etapes %}
-        <div class="posts-list">
-            <a href="{{ path('app_etape_show', {'id': etape.id}) }}" class="post-link">
-                <div class="form-check-label">
-                    <div class="post-card">
-                        {{ etape.libelle }}
-                    </div>
-                </div>
-            </a>
-        </div>
-    {% endfor %}
-       
 {% endblock %}
 

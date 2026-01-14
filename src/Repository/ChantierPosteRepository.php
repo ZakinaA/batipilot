@@ -15,6 +15,30 @@ class ChantierPosteRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, ChantierPoste::class);
     }
+    public function getTotauxParPoste(): array
+{
+    $qb = $this->createQueryBuilder('cp')
+        ->select(
+            'IDENTITY(cp.poste) AS poste_id',
+            'COALESCE(SUM(cp.montantHT), 0) AS total_ht',
+            'COALESCE(SUM(cp.montantTTC), 0) AS total_ttc'
+        )
+        ->groupBy('cp.poste');
+
+    $result = $qb->getQuery()->getResult();
+
+    $totaux = [];
+
+    foreach ($result as $row) {
+        $totaux[$row['poste_id']] = [
+            'ht' => (float) $row['total_ht'],
+            'ttc' => (float) $row['total_ttc'],
+        ];
+    }
+
+    return $totaux;
+}
+
 
     //    /**
     //     * @return ChantierPoste[] Returns an array of ChantierPoste objects

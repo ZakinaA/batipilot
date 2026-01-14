@@ -12,10 +12,24 @@
 
     {% for poste in postes %}
         <details class="current">
-            <summary>
-                {{ poste.libelle }}
-                <span class="count">{{ poste.etapes|length }}</span>
-            </summary>
+            <summary class="poste-summary">
+    <span class="poste-left">
+        {{ poste.libelle }}
+        <span class="count">{{ poste.etapes|length }}</span>
+    </span>
+
+    <span class="poste-right">
+        <span class="montant ht">
+            HT :
+            {{ totauxParPoste[poste.id].ht ?? 0 | number_format(2, ',', ' ') }} €
+        </span>
+        <span class="montant ttc">
+            TTC :
+            {{ totauxParPoste[poste.id].ttc ?? 0 | number_format(2, ',', ' ') }} €
+        </span>
+    </span>
+</summary>
+
 
             {% if poste.etapes|length > 0 %}
                 {% for etape in poste.etapes %}

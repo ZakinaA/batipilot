@@ -10,17 +10,28 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Repository\ChantierPosteRepository;
+
 
 #[Route('/poste')]
 final class PosteController extends AbstractController
 {
     #[Route(name: 'app_poste_index', methods: ['GET'])]
-    public function index(PosteRepository $posteRepository): Response
-    {
+    public function index(
+        PosteRepository $posteRepository,
+        ChantierPosteRepository $chantierPosteRepository
+    ): Response {
+        $postes = $posteRepository->findAll();
+    
+        // 🔥 récupération des totaux HT / TTC par poste
+        $totauxParPoste = $chantierPosteRepository->getTotauxParPoste();
+    
         return $this->render('poste/index.html.twig', [
-            'postes' => $posteRepository->findAll(),
+            'postes' => $postes,
+            'totauxParPoste' => $totauxParPoste,
         ]);
     }
+    
     
     #[Route('/new', name: 'app_poste_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response

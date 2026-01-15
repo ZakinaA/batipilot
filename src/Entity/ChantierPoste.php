@@ -19,11 +19,11 @@ class ChantierPoste
     #[ORM\ManyToOne(inversedBy: 'chantierPostes')]
     private ?Poste $poste = null;
 
-    // 🔴 CORRECTION ICI
+  
     #[ORM\Column(name: 'montant_ht', type: 'float', nullable: true)]
     private ?float $montantHT = null;
 
-    // 🔴 CORRECTION ICI
+
     #[ORM\Column(name: 'montant_ttc', type: 'float', nullable: true)]
     private ?float $montantTTC = null;
 

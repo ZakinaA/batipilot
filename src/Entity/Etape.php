@@ -27,7 +27,7 @@ class Etape
     private ?Poste $poste = null;
 
     #[ORM\Column]
-    private ?int $display_field = null;
+    private ?int $display_field = 1;
 
     #[ORM\Column]
     private ?int $archive = null;

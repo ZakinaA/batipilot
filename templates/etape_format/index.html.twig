@@ -6,14 +6,11 @@
 <div class="dashboard">
     <div class="top-bar">
         <h1>Formats d'étapes</h1>
-        <a href="{{ path('app_etape_format_new') }}" class="btn-add">
-            + Nouvelle étape de format
-        </a>
     </div>
 
     <div class="white-table">
         <div class="white-table-header">
-            <div>Type</div>
+            <div>Libellé</div>
         </div>
 
         {% for etape_format in etape_formats %}
@@ -21,6 +18,10 @@
                 <div class="white-table-cell">
                     {{ etape_format.libelle }}
                 </div>
+            </div>
+        {% else %}
+            <div class="white-table-empty">
+                Aucun format d’étape enregistré.
             </div>
         {% endfor %}
     </div>

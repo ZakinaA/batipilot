@@ -5,7 +5,6 @@
 {% block body %}
 <div class="container">
 
-   
     <div class="header-fiche">
         <h1>Poste : {{ poste.libelle }}</h1>
 
@@ -19,16 +18,14 @@
         </div>
     </div>
 
-  
     {% for message in app.flashes('success') %}
         <div class="card" style="border-top-color: var(--success); margin-bottom: 20px;">
             {{ message }}
         </div>
     {% endfor %}
 
-   
+    
     <div class="grid-info">
-
         <div class="card">
             <h2>Informations du poste</h2>
 
@@ -64,8 +61,116 @@
                 </div>
             </div>
         </div>
-
     </div>
+
+    <div class="header-fiche">
+        <h1>Chantier ou ce poste est présent :</h1>
+    </div>
+    {% for chantierPoste in poste.chantierPostes %}
+        {% set chantier = chantierPoste.chantier %}
+        {% set client = chantier.client %}
+
+        <div class="grid-info" style="margin-top: 30px;">
+
+           
+            <div class="card">
+                <h2>Client</h2>
+
+                <div class="info-row-grid">
+                    <div class="info-col">
+                        <span class="label">Adresse</span>
+                        <span class="value">{{ chantier.adresse ?? '-' }}</span>
+                    </div>
+
+                    <div class="info-col">
+                        <span class="label">Code postal</span>
+                        <span class="value">{{ chantier.copos ?? '-' }}</span>
+                    </div>
+                </div>
+
+                <div class="info-row-grid">
+                    <div class="info-col">
+                        <span class="label">Ville</span>
+                        <span class="value">{{ chantier.ville ?? '-' }}</span>
+                    </div>
+                </div>
+            </div>
+
+           
+            <div class="card">
+                <h2>Chantier</h2>
+
+                <div class="info-row-grid">
+                    <div class="info-col">
+                        <span class="label">Date prévue</span>
+                        <span class="value">
+                            {{ chantier.datePrevue ? chantier.datePrevue|date('d/m/Y') : '-' }}
+                        </span>
+                    </div>
+
+                    <div class="info-col">
+                        <span class="label">Date démarrage</span>
+                        <span class="value">
+                            {{ chantier.dateDemarrage ? chantier.dateDemarrage|date('d/m/Y') : '-' }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="info-row-grid">
+                    <div class="info-col">
+                        <span class="label">Date de fin</span>
+                        <span class="value">
+                            {{ chantier.dateFin ? chantier.dateFin|date('d/m/Y') : '-' }}
+                        </span>
+                    </div>
+
+                    <div class="info-col">
+                        <span class="label">Date réception</span>
+                        <span class="value">
+                            {{ chantier.dateReception ? chantier.dateReception|date('d/m/Y') : '-' }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="info-row-grid">
+                    <div class="info-col">
+                        <span class="label">Surface maison</span>
+                        <span class="value">
+                            {{ chantier.surfaceMaison ? chantier.surfaceMaison ~ ' m²' : '-' }}
+                        </span>
+                    </div>
+
+                    <div class="info-col">
+                        <span class="label">Surface combles</span>
+                        <span class="value">
+                            {{ chantier.surfaceCombles ? chantier.surfaceCombles ~ ' m²' : '-' }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="info-row-grid">
+                    <div class="info-col">
+                        <span class="label">Temps de trajet</span>
+                        <span class="value">
+                            {{ chantier.tempsTrajet ? chantier.tempsTrajet ~ ' min' : '-' }}
+                        </span>
+                    </div>
+
+                    <div class="info-col">
+                        <span class="label">Distance dépôt</span>
+                        <span class="value">
+                            {{ chantier.distanceDepot ? chantier.distanceDepot ~ ' km' : '-' }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    {% else %}
+        <div class="card" style="margin-top: 30px;">
+            Aucun chantier associé à ce poste.
+        </div>
+    {% endfor %}
 
     
     <form method="post"

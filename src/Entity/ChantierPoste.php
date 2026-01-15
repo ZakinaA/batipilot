@@ -19,10 +19,12 @@ class ChantierPoste
     #[ORM\ManyToOne(inversedBy: 'chantierPostes')]
     private ?Poste $poste = null;
 
-    #[ORM\Column(nullable: true)]
+  
+    #[ORM\Column(name: 'montant_ht', type: 'float', nullable: true)]
     private ?float $montantHT = null;
 
-    #[ORM\Column(nullable: true)]
+
+    #[ORM\Column(name: 'montant_ttc', type: 'float', nullable: true)]
     private ?float $montantTTC = null;
 
     public function getId(): ?int
@@ -38,7 +40,6 @@ class ChantierPoste
     public function setChantier(?Chantier $chantier): static
     {
         $this->chantier = $chantier;
-
         return $this;
     }
 
@@ -50,7 +51,6 @@ class ChantierPoste
     public function setPoste(?Poste $poste): static
     {
         $this->poste = $poste;
-
         return $this;
     }
 
@@ -62,7 +62,6 @@ class ChantierPoste
     public function setMontantHT(?float $montantHT): static
     {
         $this->montantHT = $montantHT;
-
         return $this;
     }
 
@@ -74,7 +73,6 @@ class ChantierPoste
     public function setMontantTTC(?float $montantTTC): static
     {
         $this->montantTTC = $montantTTC;
-
         return $this;
     }
 }

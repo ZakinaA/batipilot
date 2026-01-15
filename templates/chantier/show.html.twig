@@ -108,7 +108,17 @@
         <details class="poste-{{ cp.poste.slug ?? 'tech' }}">
             <summary>
                 <span>{{ cp.poste.libelle }}</span>
-                <span class="ttc-label">{{ cp.montantTTC }} € TTC</span>
+                {% set tva = cp.poste.tva ?? 0 %}
+                {% set tauxTVA = tva / 100 %}
+                {% set montantHT = cp.montantTTC / (1 + tauxTVA) %}
+
+                <span class="ttc-label">
+                    {{ cp.montantTTC|number_format(2, ',', ' ') }} € TTC
+                    <small style="opacity:.7">
+                        ({{ montantHT|number_format(2, ',', ' ') }} € HT
+                        {% if tva %}- TVA {{ tva }} %{% endif %})
+                    </small>
+                </span>
             </summary>
 
             <div class="list-content">

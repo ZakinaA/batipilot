@@ -17,20 +17,13 @@ use App\Repository\ChantierPosteRepository;
 final class PosteController extends AbstractController
 {
     #[Route(name: 'app_poste_index', methods: ['GET'])]
-    public function index(
-        PosteRepository $posteRepository,
-        ChantierPosteRepository $chantierPosteRepository
-    ): Response {
-        $postes = $posteRepository->findAll();
-    
-        // 🔥 récupération des totaux HT / TTC par poste
-        $totauxParPoste = $chantierPosteRepository->getTotauxParPoste();
-    
+    public function index(PosteRepository $posteRepository): Response
+    {
         return $this->render('poste/index.html.twig', [
-            'postes' => $postes,
-            'totauxParPoste' => $totauxParPoste,
+            'postes' => $posteRepository->findAll(),
         ]);
     }
+
     
     
     #[Route('/new', name: 'app_poste_new', methods: ['GET', 'POST'])]

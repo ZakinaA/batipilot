@@ -74,22 +74,5 @@
             </a>
         {% endfor %}
     </details>
-
-    
-    <details class="archived">
-        <summary>Archives <span class="count">{{ chantiers_archiver|length }}</span></summary>
-
-        {% for chantier in chantiers_archiver %}
-            <a class="project-item" href="{{ path('app_chantier_show', {'id': chantier.id}) }}">
-                <div class="project-item">
-                    <div>
-                        <div class="client-name">{{ chantier.client.nom }}</div>
-                        <div class="date-info">{{ chantier.ville }}</div>
-                    </div>
-                </div>
-            </a>
-        {% endfor %}
-    </details>
-
 </div>
 {% endblock %}

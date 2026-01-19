@@ -111,12 +111,29 @@ final class ChantierController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_chantier_show', methods: ['GET'])]
-    public function show(Chantier $chantier): Response
-    {
+        public function show(
+        Chantier $chantier,
+        PosteRepository $posteRepository
+        ): Response {
+        // Tous les postes actifs
+        $postes = $posteRepository->findBy(
+            ['archive' => 0],
+            ['ordre' => 'ASC']
+        );
+
+        // Indexation des ChantierPoste par ID de poste
+        $chantierPostesIndexed = [];
+        foreach ($chantier->getChantierPostes() as $chantierPoste) {
+            $chantierPostesIndexed[$chantierPoste->getPoste()->getId()] = $chantierPoste;
+        }
+
         return $this->render('chantier/show.html.twig', [
             'chantier' => $chantier,
+            'postes' => $postes,
+            'chantierPostesIndexed' => $chantierPostesIndexed,
         ]);
     }
+
 
     #[Route('/{id}/edit', name: 'app_chantier_edit', methods: ['GET', 'POST'])]
     public function edit(

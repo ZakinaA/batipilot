@@ -29,10 +29,8 @@
     {# ================= INFOS ================= #}
     <div class="grid-info">
 
-        {# -------- CLIENT -------- #}
         <div class="card">
             <h2>Client</h2>
-
             {% if chantier.client %}
                 <div class="info-row-grid">
                     <div class="info-col">
@@ -60,7 +58,6 @@
             {% endif %}
         </div>
 
-        {# -------- CHANTIER -------- #}
         <div class="card">
             <h2>Chantier</h2>
 
@@ -97,58 +94,38 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     {# ================= POSTES ================= #}
     <h2 style="margin-bottom: 15px;">Postes & étapes</h2>
 
-    {% for cp in chantier.chantierPostes %}
-        {# slug recommandé : etude, gros, second, tech #}
-        <details class="poste-{{ cp.poste.slug ?? 'tech' }}">
+    {% for poste in postes %}
+        {% set cp = chantierPostesIndexed[poste.id] ?? null %}
+
+        <details class="poste-{{ poste.slug ?? 'tech' }}">
             <summary>
-                <span>{{ cp.poste.libelle }}</span>
-                {% set tva = cp.poste.tva ?? 0 %}
-                {% set tauxTVA = tva / 100 %}
-                {% set montantHT = cp.montantTTC / (1 + tauxTVA) %}
+                <a class="project-item" href="{{ path('app_poste_show', {'id': poste.id}) }}">
+                    <span>{{ poste.libelle }}</span>
 
-                <span class="ttc-label">
-                    {{ cp.montantTTC|number_format(2, ',', ' ') }} € TTC
-                    <small style="opacity:.7">
-                        ({{ montantHT|number_format(2, ',', ' ') }} € HT
-                        {% if tva %}- TVA {{ tva }} %{% endif %})
-                    </small>
-                </span>
-            </summary>
+                    {% if cp %}
+                        {% set tva = poste.tva ?? 0 %}
+                        {% set tauxTVA = tva / 100 %}
+                        {% set montantHT = cp.montantTTC / (1 + tauxTVA) %}
 
-            <div class="list-content">
-                {% for ce in chantier.chantierEtapes %}
-                    {% if ce.etape.poste.id == cp.poste.id %}
-                        <div class="task-row">
-                            <span>{{ ce.etape.libelle }}</span>
-                            <span>
-                                {% set formatId = ce.etape.etapeFormat.id %}
-
-                                {% if formatId == 1 %}
-                                    {% if ce.valBoolean is not null %}
-                                        <span class="badge badge-ok">
-                                            {{ ce.valBoolean ? 'Oui' : 'Non' }}
-                                        </span>
-                                    {% else %}
-                                        -
-                                    {% endif %}
-                                {% elseif formatId == 2 %}
-                                    {{ ce.valDate ? ce.valDate|date('d/m/Y') : '-' }}
-                                {% elseif formatId == 3 %}
-                                    {{ ce.valDateHeure ? ce.valDateHeure|date('d/m/Y H:i') : '-' }}
-                                {% elseif formatId == 4 %}
-                                    {{ ce.valText ?? '-' }}
-                                {% endif %}
-                            </span>
-                        </div>
+                        <span class="ttc-label">
+                            {{ cp.montantTTC|number_format(2, ',', ' ') }} € TTC
+                            <small style="opacity:.7">
+                                ({{ montantHT|number_format(2, ',', ' ') }} € HT
+                                {% if tva %}- TVA {{ tva }} %{% endif %})
+                            </small>
+                        </span>
+                    {% else %}
+                        <span class="ttc-label" style="opacity:.5">
+                            — € TTC
+                        </span>
                     {% endif %}
-                {% endfor %}
-            </div>
+                </a>
+            </summary>
         </details>
     {% else %}
         <small>Aucun poste défini</small>

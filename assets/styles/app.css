@@ -282,4 +282,64 @@
         .client-name {
             font-weight: 400; /* normal */
         }
-        
+        /* ===== POSTES AVEC FLECHE ===== */
+
+        .poste-summary {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0;
+        }
+
+        .poste-summary::-webkit-details-marker {
+            display: none;
+        }
+
+        /* Fleche */
+        .toggle-arrow {
+            font-size: 0.9rem;
+            cursor: pointer;
+            padding: 0 10px;
+            user-select: none;
+            transition: transform 0.2s ease;
+            color: var(--text-light);
+        }
+
+        details[open] .toggle-arrow {
+            transform: rotate(90deg);
+            color: var(--primary);
+        }
+
+        /* ===== ETAPES : LISTE EN 2 COLONNES ===== */
+
+        .etapes-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px 30px;
+            padding: 12px 20px 16px;
+            background: transparent;
+        }
+
+        /* Etape = lien simple */
+        .etape-field {
+            display: block;
+            padding: 6px 0;
+            background: none;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+        }
+
+        /* Hover léger */
+        .etape-field:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        /* Libellé */
+        .etape-label {
+            font-weight: 600;
+        }

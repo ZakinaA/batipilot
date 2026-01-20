@@ -8,6 +8,7 @@
     {# ================= HEADER ================= #}
     <div class="header-fiche">
         <h1>Chantier : {{ chantier.ville }}</h1>
+        <span>Équipe :</span>
 
         <div>
             <a href="{{ path('app_chantier_edit', {'id': chantier.id}) }}" class="btn-back">
@@ -95,41 +96,60 @@
             </div>
         </div>
     </div>
+        {# ================= POSTE ================= #}
+                    {% for poste in postes %}
+                {% set cp = chantierPostesIndexed[poste.id] ?? null %}
 
-    {# ================= POSTES ================= #}
-    <h2 style="margin-bottom: 15px;">Postes & étapes</h2>
+                <details class="poste-{{ poste.slug ?? 'tech' }} poste-details">
+                    <summary class="poste-summary">
 
-    {% for poste in postes %}
-        {% set cp = chantierPostesIndexed[poste.id] ?? null %}
+            <div class="poste-left">
+                <span class="toggle-arrow" data-toggle>▶</span>
+                <span class="poste-name">{{ poste.libelle }}</span>
+            </div>
 
-        <details class="poste-{{ poste.slug ?? 'tech' }}">
-            <summary>
-                <a class="project-item" href="{{ path('app_poste_show', {'id': poste.id}) }}">
-                    <span>{{ poste.libelle }}</span>
+            <a class="project-item poste-link"
+            href="{{ path('app_poste_show', {'id': poste.id}) }}">
 
-                    {% if cp %}
-                        {% set tva = poste.tva ?? 0 %}
-                        {% set tauxTVA = tva / 100 %}
-                        {% set montantHT = cp.montantTTC / (1 + tauxTVA) %}
+                {% if cp %}
+                    {% set tva = poste.tva ?? 0 %}
+                    {% set tauxTVA = tva / 100 %}
+                    {% set montantHT = cp.montantTTC / (1 + tauxTVA) %}
 
-                        <span class="ttc-label">
-                            {{ cp.montantTTC|number_format(2, ',', ' ') }} € TTC
-                            <small style="opacity:.7">
-                                ({{ montantHT|number_format(2, ',', ' ') }} € HT
-                                {% if tva %}- TVA {{ tva }} %{% endif %})
-                            </small>
-                        </span>
-                    {% else %}
-                        <span class="ttc-label" style="opacity:.5">
-                            — € TTC
-                        </span>
+                    <span class="ttc-label">
+                        {{ cp.montantTTC|number_format(2, ',', ' ') }} € TTC
+                        <small style="opacity:.7">
+                            ({{ montantHT|number_format(2, ',', ' ') }} € HT
+                            {% if tva %}- TVA {{ tva }} %{% endif %})
+                        </small>
+                    </span>
+                {% else %}
+                    <span class="ttc-label" style="opacity:.5">
+                        — € TTC
+                    </span>
+                {% endif %}
+            </a>
+
+        </summary>
+
+
+            {# ===== ETAPES ===== #}
+            <div class="etapes-grid">
+                <span> nombre de jour travailler :</span>
+                {% for etape in poste.etapes %}
+                    {% if etape.archive == 0 %}
+                        <a class="etape-field"
+                        href="{{ path('app_etape_show', {'id': etape.id}) }}">
+                            <span class="etape-label">{{ etape.libelle }}</span>
+                        </a>
                     {% endif %}
-                </a>
-            </summary>
+                {% else %}
+                    <small style="opacity:.6;">Aucune étape</small>
+                {% endfor %}
+            </div>
         </details>
-    {% else %}
-        <small>Aucun poste défini</small>
     {% endfor %}
+
 
     {# ================= SUPPRESSION ================= #}
     <form method="post"

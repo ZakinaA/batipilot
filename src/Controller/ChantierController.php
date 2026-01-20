@@ -22,15 +22,15 @@ final class ChantierController extends AbstractController
     #[Route(name: 'app_chantier_index', methods: ['GET'])]
     public function index(ChantierRepository $chantierRepository): Response
     {
-        
+        // 🔥 MISE À JOUR AUTOMATIQUE DES STATUTS
+        $chantierRepository->updateStatutsByDates();
 
         return $this->render('chantier/index.html.twig', [
-         'chantiers_demarres' => $chantierRepository->findChantiersByStatutId(1),
-         'chantiers_avenir' => $chantierRepository->findChantiersByStatutId(2),
-         'chantiers_terminer' => $chantierRepository->findChantiersByStatutId(3),
-         'chantiers_archiver' => $chantierRepository->findBy(['archive' => 1]),
+            'chantiers_demarres' => $chantierRepository->findChantiersByStatutId(1),
+            'chantiers_avenir' => $chantierRepository->findChantiersByStatutId(2),
+            'chantiers_terminer' => $chantierRepository->findChantiersByStatutId(3),
+            'chantiers_archiver' => $chantierRepository->findBy(['archive' => 1]),
         ]);
-
     }
 
     #[Route('/new', name: 'app_chantier_new', methods: ['GET', 'POST'])]

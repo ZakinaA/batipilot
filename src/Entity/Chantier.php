@@ -44,10 +44,10 @@ class Chantier
     private ?int $tempsTrajet = null;
 
     #[ORM\Column(nullable: true)]
-    private ?float $surfaceMaison = null;
+    private ?float $surfacePlancher = null;
 
     #[ORM\Column(nullable: true)]
-    private ?float $surfaceCombles = null;
+    private ?float $surfaceHabitable = null;
 
     #[ORM\Column]
     private ?int $archive = null;
@@ -201,26 +201,26 @@ class Chantier
         return $this;
     }
 
-    public function getSurfaceMaison(): ?float
+    public function getSurfacePlancher(): ?float
     {
-        return $this->surfaceMaison;
+        return $this->surfacePlancher;
     }
 
-    public function setSurfaceMaison(?float $surfaceMaison): static
+    public function setSurfacePlancher(?float $surfacePlancher): static
     {
-        $this->surfaceMaison = $surfaceMaison;
+        $this->surfacePlancher = $surfacePlancher;
 
         return $this;
     }
 
-    public function getSurfaceCombles(): ?float
+    public function getSurfaceHabitable(): ?float
     {
-        return $this->surfaceCombles;
+        return $this->surfaceHabitable;
     }
 
-    public function setSurfaceCombles(?float $surfaceCombles): static
+    public function setSurfaceHabitable(?float $surfaceHabitable): static
     {
-        $this->surfaceCombles = $surfaceCombles;
+        $this->surfaceHabitable = $surfaceHabitable;
 
         return $this;
     }

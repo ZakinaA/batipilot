@@ -87,13 +87,13 @@ class ChantierType extends AbstractType
                 'required' => false,
                 'attr' => ['class' => 'form-control']
             ])
-            ->add('surfaceMaison', NumberType::class, [
-                'label' => 'Surface Maison (m²)',
+            ->add('surfacePlancher', NumberType::class, [
+                'label' => 'Surface Plancher (m²)',
                 'required' => false,
                 'attr' => ['class' => 'form-control']
             ])
-            ->add('surfaceCombles', NumberType::class, [
-                'label' => 'Surface Combles (m²)',
+            ->add('surfaceHabitable', NumberType::class, [
+                'label' => 'Surface Habitable (m²)',
                 'required' => false,
                 'attr' => ['class' => 'form-control']
             ])
@@ -163,7 +163,6 @@ class ChantierType extends AbstractType
                         $options['choices'] = [
                             'Oui' => 'oui',
                             'Non' => 'non',
-                            'Sans objet' => 'sans_objet'
                         ];
                         $options['expanded'] = true;   // boutons radio
                         $options['multiple'] = false;

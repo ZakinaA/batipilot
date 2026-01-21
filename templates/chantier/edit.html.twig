@@ -134,18 +134,18 @@
         </div>
 
         <div class="etape-field">
-            {{ form_label(form.surfaceMaison, null, {'label_attr': {'class': 'etape-label'}}) }}
+            {{ form_label(form.surfacePlancher, null, {'label_attr': {'class': 'etape-label'}}) }}
             <div class="etape-input">
-                {{ form_widget(form.surfaceMaison, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(form.surfaceMaison) }}
+                {{ form_widget(form.surfacePlancher, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.surfacePlancher) }}
             </div>
         </div>
 
         <div class="etape-field">
-            {{ form_label(form.surfaceCombles, null, {'label_attr': {'class': 'etape-label'}}) }}
+            {{ form_label(form.surfaceHabitable, null, {'label_attr': {'class': 'etape-label'}}) }}
             <div class="etape-input">
-                {{ form_widget(form.surfaceCombles, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(form.surfaceCombles) }}
+                {{ form_widget(form.surfaceHabitable, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.surfaceHabitable) }}
             </div>
         </div>
 
@@ -190,7 +190,7 @@
                                         <div class="etape-input">
                                             {% set etapeFormat = etape.etapeFormat %}
 
-                                            {# Format 1: Oui/Non/Sans objet - Radio buttons #}
+                                            {# Format 1: Oui/Non - Radio buttons #}
                                             {% if etapeFormat and etapeFormat.id == 1 %}
                                                 {{ form_widget(form[fieldName]) }}
 

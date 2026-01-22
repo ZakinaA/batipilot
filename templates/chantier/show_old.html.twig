@@ -100,12 +100,12 @@
                             <td>{{ chantier.tempsTrajet ? chantier.tempsTrajet ~ ' min' : '-' }}</td>
                         </tr>
                         <tr>
-                            <th>Surface Maison :</th>
-                            <td>{{ chantier.surfaceMaison ? chantier.surfaceMaison ~ ' m²' : '-' }}</td>
+                            <th>Surface Plancher :</th>
+                            <td>{{ chantier.surfacePlancher ? chantier.surfacePlancher ~ ' m²' : '-' }}</td>
                         </tr>
                         <tr>
-                            <th>Surface Combles :</th>
-                            <td>{{ chantier.surfaceCombles ? chantier.surfaceCombles ~ ' m²' : '-' }}</td>
+                            <th>Surface Habitable :</th>
+                            <td>{{ chantier.surfaceHabitable ? chantier.surfaceHabitable ~ ' m²' : '-' }}</td>
                         </tr>
                     </table>
                 </div>
@@ -136,13 +136,11 @@
                                             {% set formatId = chantierEtape.etape.etapeFormat.id %}
 
                                             {% if formatId == 1 %}
-                                                {# Oui, non, sans objet #}
+                                                {# Oui, non #}
                                                 {% if chantierEtape.valBoolean is not null %}
                                                     <span class="badge bg-{{ chantierEtape.valBoolean ? 'success' : 'danger' }}">
                                                         {{ chantierEtape.valBoolean ? 'Oui' : 'Non' }}
                                                     </span>
-                                                {% else %}
-                                                    <span class="badge bg-secondary">Sans objet</span>
                                                 {% endif %}
                                             {% elseif formatId == 2 %}
                                                 {# Date #}

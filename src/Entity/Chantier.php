@@ -79,15 +79,15 @@ class Chantier
     #[ORM\OneToMany(targetEntity: ChantierPresta::class, mappedBy: 'chantier')]
     private Collection $chantierPrestations;
 
-    #[ORM\ManyToOne(inversedBy: 'chantier')]
-    private ?equipe $chantier = null;
-
+    #[ORM\ManyToOne(inversedBy: 'indice')]
+    private ?Equipe $equipe = null;
 
     public function __construct()
     {
         $this->chantierEtapes = new ArrayCollection();
         $this->chantierPostes = new ArrayCollection();
         $this->chantierPrestations = new ArrayCollection();
+        $this->equipes = new ArrayCollection();
 
     }
 
@@ -354,17 +354,15 @@ class Chantier
         return $this;
     }
 
-    public function getChantier(): ?equipe
+    public function getEquipe(): ?Equipe
     {
-        return $this->chantier;
+        return $this->equipe;
     }
 
-    public function setChantier(?equipe $chantier): static
+    public function setEquipe(?Equipe $equipe): static
     {
-        $this->chantier = $chantier;
+        $this->equipe = $equipe;
 
         return $this;
     }
-
-
 }

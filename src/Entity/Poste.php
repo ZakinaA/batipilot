@@ -40,7 +40,7 @@ class Poste
     private Collection $chantierPostes;
 
     #[ORM\Column(length: 100, nullable: true)]
-    private ?string $equipe = null;
+    private ?int $equipe = null;
 
     #[ORM\Column(length: 150, nullable: true)]
     private ?string $presta = null;
@@ -173,12 +173,12 @@ class Poste
         return $this;
     }
 
-    public function getEquipe(): ?string
+    public function getEquipe(): ?int
     {
         return $this->equipe;
     }
 
-    public function setEquipe(?string $equipe): static
+    public function setEquipe(?int $equipe): static
     {
         $this->equipe = $equipe;
 

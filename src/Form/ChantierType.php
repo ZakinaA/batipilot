@@ -21,6 +21,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use App\Entity\Equipe;
+
 
 class ChantierType extends AbstractType
 {
@@ -105,6 +107,14 @@ class ChantierType extends AbstractType
                 'label' => 'Statut du chantier',
                 'required' => true,
             ])
+            ->add('equipe', EntityType::class, [
+                'class' => Equipe::class,
+                'choice_label' => 'nom',
+                'placeholder' => 'Sélectionner une équipe',
+                'label' => 'Équipe',
+                'required' => false,
+                'attr' => ['class' => 'form-control'],
+            ])
             ;
 
 
@@ -118,24 +128,38 @@ class ChantierType extends AbstractType
 
             foreach ($postes as $poste) {
 
-               $form->add('poste_'.$poste->getId().'_montantHT', NumberType::class, [
-    'mapped' => false,
-    'required' => false,
-    'label' => 'HT',
-    'attr' => [
-        'class' => 'form-control form-control-sm',
-        'data-poste-id' => $poste->getId(),
-    ],
-]);
-               $form->add('poste_'.$poste->getId().'_montantTTC', NumberType::class, [
-    'mapped' => false,
-    'required' => false,
-    'label' => 'TTC',
-    'attr' => [
-        'class' => 'form-control form-control-sm',
-        'data-poste-id' => $poste->getId(),
-    ],
-]);
+    $form->add('poste_'.$poste->getId().'_montantHT', NumberType::class, [
+        'mapped' => false,
+        'required' => false,
+        'label' => 'HT',
+        'attr' => [
+            'class' => 'form-control form-control-sm',
+            'data-poste-id' => $poste->getId(),
+        ],
+    ]);
+
+    $form->add('poste_'.$poste->getId().'_montantTTC', NumberType::class, [
+        'mapped' => false,
+        'required' => false,
+        'label' => 'TTC',
+        'attr' => [
+            'class' => 'form-control form-control-sm',
+            'data-poste-id' => $poste->getId(),
+        ],
+    ]);
+
+    // ✅ AJOUT NbJoursMo UNIQUEMENT SI poste.equipe == 1
+    if ($poste->getEquipe() === 1) {
+        $form->add('poste_'.$poste->getId().'_nbJoursMo', IntegerType::class, [
+            'mapped' => false,
+            'required' => false,
+            'label' => 'Nb jours MO',
+            'attr' => [
+                'class' => 'form-control form-control-sm',
+                'data-poste-id' => $poste->getId(),
+            ],
+        ]);
+    }
 
 
 

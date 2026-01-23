@@ -176,6 +176,16 @@
                                     {{ form_widget(form['poste_' ~ poste.id ~ '_montantTTC']) }}
                                 </div>
                             </div>
+                            {% if poste.equipe == 1 %}
+                                {% set fieldNbJours = 'poste_' ~ poste.id ~ '_nbJoursMo' %}
+                                {% if form[fieldNbJours] is defined %}
+                                    <div class="montant-field">
+                                        {{ form_label(form[fieldNbJours], 'Nb jours MO') }}
+                                        {{ form_widget(form[fieldNbJours]) }}
+                                        {{ form_errors(form[fieldNbJours]) }}
+                                    </div>
+                                {% endif %}
+                           {% endif %}
                         </div>
                     </div>
                  

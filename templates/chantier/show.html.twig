@@ -8,7 +8,13 @@
     {# ================= HEADER ================= #}
     <div class="header-fiche">
         <h1>Chantier : {{ chantier.ville }}</h1>
-        <span>Équipe :</span>
+        <span>
+         Équipe :
+            <strong>
+                {{ chantier.equipe ? chantier.equipe.nom : '—' }}
+            </strong>
+        </span>
+
 
         <div>
             <a href="{{ path('app_chantier_edit', {'id': chantier.id}) }}" class="btn-back">
@@ -135,7 +141,12 @@
 
             {# ===== ETAPES ===== #}
             <div class="etapes-grid">
-                <span> nombre de jour travailler :</span>
+                <span>
+                    Nombre de jours travaillés :
+                    <strong>
+                        {{ cp and cp.nbJoursMo is not null ? cp.nbJoursMo : '-' }}
+                    </strong>
+                </span>
                 {% for etape in poste.etapes %}
                     {% if etape.archive == 0 %}
                         <a class="etape-field"

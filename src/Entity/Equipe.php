@@ -21,9 +21,6 @@ class Equipe
     #[ORM\Column(nullable: true)]
     private ?float $montantMo = null;
 
-    #[ORM\Column]
-    private ?int $indice = null;
-
     /**
      * @var Collection<int, ChantierPresta>
      */
@@ -31,15 +28,19 @@ class Equipe
     private Collection $chantiersPresta;
 
     /**
-     * @var Collection<int, Chantier>
+     * @var Collection<int, chantier>
      */
-    #[ORM\OneToMany(targetEntity: Chantier::class, mappedBy: 'equipe', cascade: ['persist', 'remove'])]
-    private Collection $chantiers;
+    #[ORM\OneToMany(targetEntity: chantier::class, mappedBy: 'equipe')]
+    private Collection $equipe;
 
+    #[ORM\Column(nullable: true)]
+    private ?float $indice = null;
+    
     public function __construct()
     {
         $this->chantiersPresta = new ArrayCollection();
         $this->chantiers = new ArrayCollection();
+        $this->equipe = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,18 +68,6 @@ class Equipe
     public function setMontantMo(?float $montantMo): static
     {
         $this->montantMo = $montantMo;
-
-        return $this;
-    }
-
-    public function getIndice(): ?int
-    {
-        return $this->indice;
-    }
-
-    public function setIndice(int $indice): static
-    {
-        $this->indice = $indice;
 
         return $this;
     }
@@ -114,31 +103,44 @@ class Equipe
     }
 
     /**
-     * @return Collection<int, Chantier>
+     * @return Collection<int, chantier>
      */
-    public function getChantiers(): Collection
+    public function getequipe(): Collection
     {
-        return $this->chantiers;
+        return $this->equipe;
     }
 
-    public function addChantier(Chantier $chantier): static
+    public function addEquipe(chantier $equipe): static
     {
-        if (!$this->chantiers->contains($chantier)) {
-            $this->chantiers->add($chantier);
-            $chantier->setEquipe($this);
+        if (!$this->equipe->contains($equipe)) {
+            $this->equipe->add($equipe);
+            $equipe->setEquipe($this);
         }
 
         return $this;
     }
 
-    public function removeChantier(Chantier $chantier): static
+    public function removeEquipe(chantier $equipe): static
     {
-        if ($this->chantiers->removeElement($chantier)) {
+        if ($this->equipe->removeElement($equipe)) {
             // set the owning side to null (unless already changed)
-            if ($chantier->getEquipe() === $this) {
-                $chantier->setEquipe(null);
+            if ($equipe->getEquipe() === $this) {
+                $equipe->setEquipe(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIndice(): ?float
+    {
+        return $this->indice;
+    }
+
+    public function setIndice(?float $indice): static
+    {
+        $this->indice = $indice;
+
         return $this;
     }
 }

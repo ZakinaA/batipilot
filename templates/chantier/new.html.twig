@@ -158,6 +158,14 @@
             </div>
         </div>
 
+        <div class="etape-field">
+            {{ form_label(form.equipe, null, {'label_attr': {'class': 'etape-label'}}) }}
+            <div class="etape-input">
+                {{ form_widget(form.equipe, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.equipe) }}
+            </div>
+        </div>
+
     </div>
 </div>
 
@@ -187,6 +195,16 @@
                                     {{ form_widget(form['poste_' ~ poste.id ~ '_montantTTC']) }}
                                 </div>
                             </div>
+                            {% if poste.equipe == 1 %}
+                                {% set fieldNbJours = 'poste_' ~ poste.id ~ '_nbJoursMo' %}
+                                {% if form[fieldNbJours] is defined %}
+                                    <div class="montant-field">
+                                        {{ form_label(form[fieldNbJours], 'Nombre de jours travaillés') }}
+                                        {{ form_widget(form[fieldNbJours], {'attr': {'class': 'form-control'}}) }}
+                                        {{ form_errors(form[fieldNbJours]) }}
+                                    </div>
+                                {% endif %}
+                           {% endif %} 
                         </div>
                     </div>
                  

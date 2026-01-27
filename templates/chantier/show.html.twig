@@ -142,11 +142,35 @@
             {# ===== ETAPES ===== #}
             <div class="etapes-grid">
                 <span>
-                    Nombre de jours travaillés :
+                    Montant des fournitures :
                     <strong>
-                        {{ cp and cp.nbJoursMo is not null ? cp.nbJoursMo : '-' }}
+                        
                     </strong>
                 </span>
+                {% if poste.equipe == 1 %}
+                    <span>
+                        Nombre de jours travaillés :
+                        <strong>
+                            {{ cp and cp.nbJoursMo is not null ? cp.nbJoursMo : '-' }}
+                        </strong>
+                    </span>
+                {% elseif poste.presta == 1 %}
+                    <span>
+                        Prestataire :
+                        <strong>
+                            {{ cp and cp.nomPrestataire ? cp.nomPrestataire : '-' }}
+                        </strong>
+                    </span>
+                    <span>
+                        Montant prestataire :
+                        <strong>
+                        {{ cp and cp.montantPrestataire
+                        ? cp.montantPrestataire|number_format(2, ',', ' ') ~ ' €'
+                        : '-' }}
+                        </strong>
+                    </span>
+                {% endif %}
+                        
                 {% for etape in poste.etapes %}
                     {% if etape.archive == 0 %}
                         <a class="etape-field"

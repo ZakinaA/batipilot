@@ -27,6 +27,13 @@ class ChantierPoste
     #[ORM\Column(name: 'montant_ttc', type: 'float', nullable: true)]
     private ?float $montantTTC = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $nomPrestataire = null;
+
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $montantPrestataire = null;
+
+
     #[ORM\Column(nullable: true)]
     private ?float $nbJoursMo = null;
 
@@ -79,15 +86,36 @@ class ChantierPoste
         return $this;
     }
 
-    public function getNbJoursMo(): ?float
+    public function getNbJoursMo(): ?int
     {
         return $this->nbJoursMo;
     }
 
-    public function setNbJoursMo(?float $nbJoursMo): static
+    public function setNbJoursMo(?int $nbJoursMo): self
     {
         $this->nbJoursMo = $nbJoursMo;
-
         return $this;
     }
+        public function getNomPrestataire(): ?string
+    {
+        return $this->nomPrestataire;
+    }
+
+    public function setNomPrestataire(?string $nomPrestataire): self
+    {
+        $this->nomPrestataire = $nomPrestataire;
+        return $this;
+    }
+
+    public function getMontantPrestataire(): ?float
+    {
+        return $this->montantPrestataire;
+    }
+
+    public function setMontantPrestataire(?float $montantPrestataire): self
+    {
+        $this->montantPrestataire = $montantPrestataire;
+        return $this;
+    }
+
 }

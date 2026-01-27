@@ -79,7 +79,7 @@ class Chantier
     #[ORM\OneToMany(targetEntity: ChantierPresta::class, mappedBy: 'chantier')]
     private Collection $chantierPrestations;
 
-    #[ORM\ManyToOne(inversedBy: 'indice')]
+    #[ORM\ManyToOne(inversedBy: 'equipe')]
     private ?Equipe $equipe = null;
 
     public function __construct()

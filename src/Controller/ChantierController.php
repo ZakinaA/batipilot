@@ -64,6 +64,15 @@ final class ChantierController extends AbstractController
                     $chantierPoste->setPoste($poste);
                     $chantierPoste->setMontantHT($montantHT);
                     $chantierPoste->setMontantTTC($montantTTC);
+
+                    // ✅ AJOUT nbJoursMo
+                    if ($poste->getEquipe() === 1) {
+                        $fieldNbJours = 'poste_' . $poste->getId() . '_nbJoursMo';
+                        $chantierPoste->setNbJoursMo(
+                            $form->has($fieldNbJours) ? $form->get($fieldNbJours)->getData() : null
+                        );
+                    }
+
                     $entityManager->persist($chantierPoste);
                 }
 
@@ -150,6 +159,12 @@ final class ChantierController extends AbstractController
             $posteId = $chantierPoste->getPoste()->getId();
             $form->get('poste_' . $posteId . '_montantHT')->setData($chantierPoste->getMontantHT());
             $form->get('poste_' . $posteId . '_montantTTC')->setData($chantierPoste->getMontantTTC());
+            if ($form->has('poste_' . $posteId . '_nbJoursMo')) {
+            $form
+            ->get('poste_' . $posteId . '_nbJoursMo')
+            ->setData($chantierPoste->getNbJoursMo());
+            }
+
         }
 
         // Pré-remplir les valeurs des étapes existantes
@@ -213,6 +228,22 @@ final class ChantierController extends AbstractController
                     $chantierPoste->setPoste($poste);
                     $chantierPoste->setMontantHT($montantHT);
                     $chantierPoste->setMontantTTC($montantTTC);
+
+                    // ✅ AJOUT nbJoursMo
+                    if ($poste->getEquipe() === 1) {
+                        $fieldNbJours = 'poste_' . $poste->getId() . '_nbJoursMo';
+                        $chantierPoste->setNbJoursMo(
+                            $form->has($fieldNbJours) ? $form->get($fieldNbJours)->getData() : null
+                        );
+                    }
+                $cp->setNomPrestataire(
+                    $form->get('poste_'.$poste->getId().'_nomPrestataire')->getData()
+                );
+
+                $cp->setMontantPrestataire(
+                    $form->get('poste_'.$poste->getId().'_montantPrestataire')->getData()
+                );
+
                     $entityManager->persist($chantierPoste);
                 }
 

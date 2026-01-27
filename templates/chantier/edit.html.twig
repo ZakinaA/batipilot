@@ -148,6 +148,21 @@
                 {{ form_errors(form.surfaceHabitable) }}
             </div>
         </div>
+<div class="etape-field">
+    {{ form_label(form.statut, null, {'label_attr': {'class': 'etape-label'}}) }}
+    <div class="etape-input">
+        {{ form_widget(form.statut, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.statut) }}
+    </div>
+</div>
+
+<div class="etape-field">
+    {{ form_label(form.equipe, null, {'label_attr': {'class': 'etape-label'}}) }}
+    <div class="etape-input">
+        {{ form_widget(form.equipe, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.equipe) }}
+    </div>
+</div>
 
     </div>
 </div>
@@ -186,6 +201,27 @@
                                     </div>
                                 {% endif %}
                            {% endif %}
+                                                {% if poste.presta == 1 %}
+                            {% set fieldNomPresta = 'poste_' ~ poste.id ~ '_nomPrestataire' %}
+                            {% set fieldMontantPresta = 'poste_' ~ poste.id ~ '_montantPrestataire' %}
+
+                            {% if form[fieldNomPresta] is defined %}
+                                <div class="montant-field">
+                                    {{ form_label(form[fieldNomPresta], 'Prestataire') }}
+                                    {{ form_widget(form[fieldNomPresta]) }}
+                                    {{ form_errors(form[fieldNomPresta]) }}
+                                </div>
+                            {% endif %}
+
+                            {% if form[fieldMontantPresta] is defined %}
+                                <div class="montant-field">
+                                    {{ form_label(form[fieldMontantPresta], 'Montant prestataire') }}
+                                    {{ form_widget(form[fieldMontantPresta]) }}
+                                    {{ form_errors(form[fieldMontantPresta]) }}
+                                </div>
+                            {% endif %}
+                        {% endif %}
+
                         </div>
                     </div>
                  

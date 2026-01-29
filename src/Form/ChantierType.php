@@ -21,6 +21,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use App\Entity\Equipe;
 
 
@@ -114,6 +115,15 @@ class ChantierType extends AbstractType
                 'label' => 'Équipe',
                 'required' => false,
                 'attr' => ['class' => 'form-control'],
+            ])
+            ->add('alerte', TextareaType::class, [
+            'label' => 'Alerte',
+            'required' => false,
+            'attr' => [
+                'class' => 'form-control',
+                'rows' => 3,
+                'placeholder' => 'Ex : Accès compliqué, client absent le matin, urgence particulière…'
+                ],
             ])
             ;
 

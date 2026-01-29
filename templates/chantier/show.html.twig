@@ -100,6 +100,20 @@
                     <span class="value">{{ chantier.dateFin ? chantier.dateFin|date('d/m/Y') : '-' }}</span>
                 </div>
             </div>
+            {% if chantier.alerte %}
+    <div class="info-row-grid">
+        <div class="info-col" style="grid-column: 1 / -1;">
+            <span class="label">
+                <i class="bi bi-exclamation-triangle-fill" style="color: #d97706;"></i>
+                Alerte
+            </span>
+            <span class="value">
+                {{ chantier.alerte|nl2br }}
+            </span>
+        </div>
+    </div>
+{% endif %}
+
         </div>
     </div>
         {# ================= POSTE ================= #}

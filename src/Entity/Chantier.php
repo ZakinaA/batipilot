@@ -51,6 +51,21 @@ class Chantier
 
     #[ORM\Column]
     private ?int $archive = null;
+    
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $alerte = null;
+
+    public function getAlerte(): ?string
+    {
+        return $this->alerte;
+    }
+
+    public function setAlerte(?string $alerte): self
+    {
+        $this->alerte = $alerte;
+        return $this;
+    }
+
 
     #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'chantiers')]
     //#[ORM\JoinColumn(nullable: false)]

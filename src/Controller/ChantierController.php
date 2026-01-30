@@ -122,7 +122,8 @@ final class ChantierController extends AbstractController
     #[Route('/{id}', name: 'app_chantier_show', methods: ['GET'])]
         public function show(
         Chantier $chantier,
-        PosteRepository $posteRepository
+        PosteRepository $posteRepository,
+        \App\Repository\ChantierEtapeRepository $chantierEtapeRepository
         ): Response {
         // Tous les postes actifs
         $postes = $posteRepository->findBy(
@@ -136,10 +137,24 @@ final class ChantierController extends AbstractController
             $chantierPostesIndexed[$chantierPoste->getPoste()->getId()] = $chantierPoste;
         }
 
+        $chantierEtapesIndexed = [];
+
+        $chantierEtapes = $chantierEtapeRepository->findBy([
+            'chantier' => $chantier,
+        ]);
+
+        foreach ($chantierEtapes as $chantierEtape) {
+            if ($chantierEtape->getEtape()) {
+                $chantierEtapesIndexed[$chantierEtape->getEtape()->getId()] = $chantierEtape;
+            }
+        }
+
+
         return $this->render('chantier/show.html.twig', [
             'chantier' => $chantier,
             'postes' => $postes,
             'chantierPostesIndexed' => $chantierPostesIndexed,
+            'chantierEtapesIndexed' => $chantierEtapesIndexed, 
         ]);
     }
 
@@ -236,11 +251,11 @@ final class ChantierController extends AbstractController
                             $form->has($fieldNbJours) ? $form->get($fieldNbJours)->getData() : null
                         );
                     }
-                $cp->setNomPrestataire(
+                $chantierPoste->setNomPrestataire(
                     $form->get('poste_'.$poste->getId().'_nomPrestataire')->getData()
                 );
 
-                $cp->setMontantPrestataire(
+                $chantierPoste->setMontantPrestataire(
                     $form->get('poste_'.$poste->getId().'_montantPrestataire')->getData()
                 );
 

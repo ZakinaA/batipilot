@@ -154,13 +154,17 @@
 
 
             {# ===== ETAPES ===== #}
+            {% set isPreChantier = poste.libelle == 'Pré-chantier' %}
             <div class="etapes-grid">
-                <span>
-                    Montant des fournitures :
-                    <strong>
+                {% if not isPreChantier %}
+                    <span>
+                        Montant des fournitures :
+                        <strong>
                         
-                    </strong>
-                </span>
+                        </strong>
+                    </span>
+                {% endif %}
+
                 {% if poste.equipe == 1 %}
                     <span>
                         Nombre de jours travaillés :
@@ -169,32 +173,68 @@
                         </strong>
                     </span>
                 {% elseif poste.presta == 1 %}
-                    <span>
-                        Prestataire :
-                        <strong>
-                            {{ cp and cp.nomPrestataire ? cp.nomPrestataire : '-' }}
-                        </strong>
-                    </span>
-                    <span>
-                        Montant prestataire :
-                        <strong>
-                        {{ cp and cp.montantPrestataire
-                        ? cp.montantPrestataire|number_format(2, ',', ' ') ~ ' €'
-                        : '-' }}
-                        </strong>
-                    </span>
+                    {% if poste.presta == 1 and not isPreChantier %}
+                        <span>
+                            Prestataire :
+                            <strong>
+                                {{ cp and cp.nomPrestataire ? cp.nomPrestataire : '-' }}
+                            </strong>
+                        </span>
+
+                        <span>
+                            Montant prestataire :
+                            <strong>
+                                {{ cp and cp.montantPrestataire
+                                    ? cp.montantPrestataire|number_format(2, ',', ' ') ~ ' €'
+                                    : '-' }}
+                            </strong>
+                        </span>
+                    {% endif %}
                 {% endif %}
                         
                 {% for etape in poste.etapes %}
                     {% if etape.archive == 0 %}
+                        {% set ce = chantierEtapesIndexed[etape.id] ?? null %}
+
                         <a class="etape-field"
                         href="{{ path('app_etape_show', {'id': etape.id}) }}">
+
                             <span class="etape-label">{{ etape.libelle }}</span>
+
+                            {% if ce %}
+                                <div class="etape-values" style="margin-top:4px; font-size:.85em; opacity:.85;">
+                                    
+                                    {% if ce.valText %}
+                                        <div> {{ ce.valText }}</div>
+                                    {% endif %}
+
+                                    {% if ce.valDate %}
+                                        <div> {{ ce.valDate|date('d/m/Y') }}</div>
+                                    {% endif %}
+
+                                    {% if ce.valDateHeure %}
+                                        <div> {{ ce.valDateHeure|date('d/m/Y H:i') }}</div>
+                                    {% endif %}
+
+                                    {% if ce.valBoolean is not null %}
+                                        <div>
+                                            {{ ce.valBoolean ? ' Oui' : ' Non' }}
+                                        </div>
+                                    {% endif %}
+
+                                    {% if ce.dateDecimal is not null %}
+                                        <div> {{ ce.dateDecimal }}</div>
+                                    {% endif %}
+                                </div>
+                            {% else %}
+                                <div style="font-size:.8em; opacity:.5;">
+                                    Futur information en rapport avec l'etape
+                                </div>
+                            {% endif %}
                         </a>
                     {% endif %}
-                {% else %}
-                    <small style="opacity:.6;">Aucune étape</small>
                 {% endfor %}
+
             </div>
         </details>
     {% endfor %}

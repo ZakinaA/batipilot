@@ -51,6 +51,21 @@ class Chantier
 
     #[ORM\Column]
     private ?int $archive = null;
+    
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $alerte = null;
+
+    public function getAlerte(): ?string
+    {
+        return $this->alerte;
+    }
+
+    public function setAlerte(?string $alerte): self
+    {
+        $this->alerte = $alerte;
+        return $this;
+    }
+
 
     #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'chantiers')]
     //#[ORM\JoinColumn(nullable: false)]
@@ -79,12 +94,15 @@ class Chantier
     #[ORM\OneToMany(targetEntity: ChantierPresta::class, mappedBy: 'chantier')]
     private Collection $chantierPrestations;
 
+    #[ORM\ManyToOne(inversedBy: 'equipe')]
+    private ?Equipe $equipe = null;
 
     public function __construct()
     {
         $this->chantierEtapes = new ArrayCollection();
         $this->chantierPostes = new ArrayCollection();
         $this->chantierPrestations = new ArrayCollection();
+        $this->equipes = new ArrayCollection();
 
     }
 
@@ -351,5 +369,15 @@ class Chantier
         return $this;
     }
 
+    public function getEquipe(): ?Equipe
+    {
+        return $this->equipe;
+    }
 
+    public function setEquipe(?Equipe $equipe): static
+    {
+        $this->equipe = $equipe;
+
+        return $this;
+    }
 }

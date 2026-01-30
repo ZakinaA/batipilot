@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Chantier;
+use App\Entity\Statut;
 use App\Entity\Client;
 use App\Repository\PosteRepository;
 use App\Repository\EtapeRepository;
@@ -20,6 +21,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use App\Entity\Equipe;
+
 
 class ChantierType extends AbstractType
 {
@@ -97,89 +101,133 @@ class ChantierType extends AbstractType
                 'required' => false,
                 'attr' => ['class' => 'form-control']
             ])
+            ->add('statut', EntityType::class, [
+                'class' => Statut::class,
+                'choice_label' => 'libelle', 
+                'placeholder' => 'Sélectionner un statut',
+                'label' => 'Statut du chantier',
+                'required' => true,
+            ])
+            ->add('equipe', EntityType::class, [
+                'class' => Equipe::class,
+                'choice_label' => 'nom',
+                'placeholder' => 'Sélectionner une équipe',
+                'label' => 'Équipe',
+                'required' => false,
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('alerte', TextareaType::class, [
+            'label' => 'Alerte',
+            'required' => false,
+            'attr' => [
+                'class' => 'form-control',
+                'rows' => 3,
+                'placeholder' => 'Ex : Accès compliqué, client absent le matin, urgence particulière…'
+                ],
+            ])
             ;
 
 
 
-        // Ajout dynamique des étapes par poste
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-            $form = $event->getForm();
+            $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+        $form = $event->getForm();
+        /** @var Chantier $chantier */
+        $chantier = $event->getData();
 
-            // Récupérer tous les postes non archivés
-            $postes = $this->posteRepository->findBy(['archive' => 0], ['ordre' => 'ASC']);
+        $postes = $this->posteRepository->findBy(
+            ['archive' => 0],
+            ['ordre' => 'ASC']
+        );
 
-            foreach ($postes as $poste) {
+        // Indexer les ChantierPoste existants
+        $chantierPostes = [];
+        foreach ($chantier->getChantierPostes() as $cp) {
+            $chantierPostes[$cp->getPoste()->getId()] = $cp;
+        }
 
-               $form->add('poste_'.$poste->getId().'_montantHT', NumberType::class, [
-    'mapped' => false,
-    'required' => false,
-    'label' => 'HT',
-    'attr' => [
-        'class' => 'form-control form-control-sm',
-        'data-poste-id' => $poste->getId(),
-    ],
-]);
-               $form->add('poste_'.$poste->getId().'_montantTTC', NumberType::class, [
-    'mapped' => false,
-    'required' => false,
-    'label' => 'TTC',
-    'attr' => [
-        'class' => 'form-control form-control-sm',
-        'data-poste-id' => $poste->getId(),
-    ],
-]);
+        foreach ($postes as $poste) {
 
+            $cp = $chantierPostes[$poste->getId()] ?? null;
 
+            // ===== Montants =====
+            $form->add('poste_'.$poste->getId().'_montantHT', NumberType::class, [
+                'mapped' => false,
+                'required' => false,
+                'label' => 'HT',
+                'data' => $cp?->getMontantHT(),
+                'attr' => ['class' => 'form-control form-control-sm'],
+            ]);
 
+            $form->add('poste_'.$poste->getId().'_montantTTC', NumberType::class, [
+                'mapped' => false,
+                'required' => false,
+                'label' => 'TTC',
+                'data' => $cp?->getMontantTTC(),
+                'attr' => ['class' => 'form-control form-control-sm'],
+            ]);
 
+            // ===== ÉQUIPE =====
+            if ($poste->isEquipe()) {
+                $form->add('poste_'.$poste->getId().'_nbJoursMo', IntegerType::class, [
+                    'mapped' => false,
+                    'required' => false,
+                    'label' => 'Nb jours MO',
+                    'data' => $cp?->getNbJoursMo(),
+                    'attr' => ['class' => 'form-control form-control-sm'],
+                ]);
+            }
 
-                // Récupérer toutes les étapes du poste non archivées
-                $etapes = $this->etapeRepository->findBy([
-                    'poste' => $poste,
-                    'archive' => 0
+            // ===== PRESTATAIRE =====
+            if ($poste->isPresta()) {
+                $form->add('poste_'.$poste->getId().'_nomPrestataire', TextType::class, [
+                    'mapped' => false,
+                    'required' => false,
+                    'label' => 'Prestataire',
+                    'data' => $cp?->getNomPrestataire(),
+                    'attr' => ['class' => 'form-control form-control-sm'],
                 ]);
 
-                foreach ($etapes as $etape) {
-                    // Utiliser l'ID de l'étape pour nommer le champ
-                    $fieldName = 'etape_' . $etape->getId();
-                    $etapeFormat = $etape->getEtapeFormat();
-
-                    // Déterminer le type de champ selon l'EtapeFormat
-                    $formType = $this->getFormTypeFromEtapeFormat($etapeFormat ? $etapeFormat->getId() : 4);
-                    $options = [
-                        'label' => $etape->getLibelle(),
-                        'mapped' => false,
-                        'required' => false,
-                        'attr' => [
-                            'class' => 'form-control',
-                            'data-poste-id' => $poste->getId(),
-                            'data-poste-nom' => $poste->getLibelle(),
-                            'data-etape-id' => $etape->getId()
-                        ]
-                    ];
-
-                    // Options spécifiques selon le type
-                    if ($formType === ChoiceType::class) {
-                        $options['choices'] = [
-                            'Oui' => 'oui',
-                            'Non' => 'non',
-                        ];
-                        $options['expanded'] = true;   // boutons radio
-                        $options['multiple'] = false;
-                        $options['placeholder'] = false;
-                    } elseif ($formType === DateType::class) {
-                        $options['widget'] = 'single_text';
-                    } elseif ($formType === DateTimeType::class) {
-                        $options['widget'] = 'single_text';
-                    } elseif ($formType === TextType::class) {
-                        $options['attr']['maxlength'] = 50;
-                    }
-
-                    $form->add($fieldName, $formType, $options);
-                }
+                $form->add('poste_'.$poste->getId().'_montantPrestataire', NumberType::class, [
+                    'mapped' => false,
+                    'required' => false,
+                    'label' => 'Montant prestataire',
+                    'data' => $cp?->getMontantPrestataire(),
+                    'scale' => 2,
+                    'attr' => ['class' => 'form-control form-control-sm'],
+                ]);
             }
-        });
-    }
+
+            // ===== ÉTAPES =====
+            $etapes = $this->etapeRepository->findBy([
+                'poste' => $poste,
+                'archive' => 0
+            ]);
+
+            foreach ($etapes as $etape) {
+                $fieldName = 'etape_'.$etape->getId();
+                $formType = $this->getFormTypeFromEtapeFormat(
+                    $etape->getEtapeFormat()?->getId() ?? 4
+                );
+
+                $options = [
+                    'mapped' => false,
+                    'required' => false,
+                    'label' => $etape->getLibelle(),
+                    'attr' => ['class' => 'form-control'],
+                ];
+
+                if ($formType === ChoiceType::class) {
+                    $options['choices'] = ['Oui' => 'oui', 'Non' => 'non'];
+                    $options['expanded'] = true;
+                } elseif (in_array($formType, [DateType::class, DateTimeType::class])) {
+                    $options['widget'] = 'single_text';
+                }
+
+                $form->add($fieldName, $formType, $options);
+            }
+        }
+    });
+}
 
     private function getFormTypeFromEtapeFormat(int $etapeFormatId): string
     {

@@ -40,10 +40,10 @@ class Poste
     private Collection $chantierPostes;
 
     #[ORM\Column(length: 100, nullable: true)]
-    private ?string $equipe = null;
+    private ?int $equipe = null;
 
     #[ORM\Column(length: 150, nullable: true)]
-    private ?string $presta = null;
+    private ?int $presta = null;
 
     /**
      * @var Collection<int, ChantierPresta>
@@ -173,28 +173,38 @@ class Poste
         return $this;
     }
 
-    public function getEquipe(): ?string
+    public function getEquipe(): ?int
     {
         return $this->equipe;
     }
 
-    public function setEquipe(?string $equipe): static
+    public function setEquipe(?int $equipe): static
     {
         $this->equipe = $equipe;
 
         return $this;
     }
 
-    public function getPresta(): ?string
+    public function getPresta(): ?int
     {
         return $this->presta;
     }
 
-    public function setPresta(?string $presta): static
+    public function setPresta(?int $presta): static
     {
         $this->presta = $presta;
 
         return $this;
+    }
+
+        public function isEquipe(): bool
+    {
+        return $this->equipe === 1;
+    }
+
+    public function isPresta(): bool
+    {
+        return $this->presta === 1;
     }
 
     /**

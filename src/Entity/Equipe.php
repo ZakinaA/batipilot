@@ -21,18 +21,26 @@ class Equipe
     #[ORM\Column(nullable: true)]
     private ?float $montantMo = null;
 
-    #[ORM\Column]
-    private ?int $indice = null;
-
     /**
      * @var Collection<int, ChantierPresta>
      */
     #[ORM\OneToMany(targetEntity: ChantierPresta::class, mappedBy: 'equipe')]
-    private Collection $chantiers;
+    private Collection $chantiersPresta;
 
+    /**
+     * @var Collection<int, chantier>
+     */
+    #[ORM\OneToMany(targetEntity: chantier::class, mappedBy: 'equipe')]
+    private Collection $equipe;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $indice = null;
+    
     public function __construct()
     {
+        $this->chantiersPresta = new ArrayCollection();
         $this->chantiers = new ArrayCollection();
+        $this->equipe = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -64,44 +72,74 @@ class Equipe
         return $this;
     }
 
-    public function getIndice(): ?int
+    /**
+     * @return Collection<int, ChantierPresta>
+     */
+    public function getChantiersPresta(): Collection
     {
-        return $this->indice;
+        return $this->chantiersPresta;
     }
 
-    public function setIndice(int $indice): static
+    public function addChantierPresta(ChantierPresta $chantierPresta): static
     {
-        $this->indice = $indice;
+        if (!$this->chantiersPresta->contains($chantierPresta)) {
+            $this->chantiersPresta->add($chantierPresta);
+            $chantierPresta->setEquipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChantierPresta(ChantierPresta $chantierPresta): static
+    {
+        if ($this->chantiersPresta->removeElement($chantierPresta)) {
+            // set the owning side to null (unless already changed)
+            if ($chantierPresta->getEquipe() === $this) {
+                $chantierPresta->setEquipe(null);
+            }
+        }
 
         return $this;
     }
 
     /**
-     * @return Collection<int, ChantierPresta>
+     * @return Collection<int, chantier>
      */
-    public function getChantiers(): Collection
+    public function getequipe(): Collection
     {
-        return $this->chantiers;
+        return $this->equipe;
     }
 
-    public function addChantier(ChantierPresta $chantier): static
+    public function addEquipe(chantier $equipe): static
     {
-        if (!$this->chantiers->contains($chantier)) {
-            $this->chantiers->add($chantier);
-            $chantier->setEquipe($this);
+        if (!$this->equipe->contains($equipe)) {
+            $this->equipe->add($equipe);
+            $equipe->setEquipe($this);
         }
 
         return $this;
     }
 
-    public function removeChantier(ChantierPresta $chantier): static
+    public function removeEquipe(chantier $equipe): static
     {
-        if ($this->chantiers->removeElement($chantier)) {
+        if ($this->equipe->removeElement($equipe)) {
             // set the owning side to null (unless already changed)
-            if ($chantier->getEquipe() === $this) {
-                $chantier->setEquipe(null);
+            if ($equipe->getEquipe() === $this) {
+                $equipe->setEquipe(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIndice(): ?float
+    {
+        return $this->indice;
+    }
+
+    public function setIndice(?float $indice): static
+    {
+        $this->indice = $indice;
 
         return $this;
     }

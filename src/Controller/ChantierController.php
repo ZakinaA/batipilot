@@ -64,6 +64,15 @@ final class ChantierController extends AbstractController
                     $chantierPoste->setPoste($poste);
                     $chantierPoste->setMontantHT($montantHT);
                     $chantierPoste->setMontantTTC($montantTTC);
+
+                    // ✅ AJOUT nbJoursMo
+                    if ($poste->getEquipe() === 1) {
+                        $fieldNbJours = 'poste_' . $poste->getId() . '_nbJoursMo';
+                        $chantierPoste->setNbJoursMo(
+                            $form->has($fieldNbJours) ? $form->get($fieldNbJours)->getData() : null
+                        );
+                    }
+
                     $entityManager->persist($chantierPoste);
                 }
 
@@ -113,7 +122,8 @@ final class ChantierController extends AbstractController
     #[Route('/{id}', name: 'app_chantier_show', methods: ['GET'])]
         public function show(
         Chantier $chantier,
-        PosteRepository $posteRepository
+        PosteRepository $posteRepository,
+        \App\Repository\ChantierEtapeRepository $chantierEtapeRepository
         ): Response {
         // Tous les postes actifs
         $postes = $posteRepository->findBy(
@@ -127,10 +137,24 @@ final class ChantierController extends AbstractController
             $chantierPostesIndexed[$chantierPoste->getPoste()->getId()] = $chantierPoste;
         }
 
+        $chantierEtapesIndexed = [];
+
+        $chantierEtapes = $chantierEtapeRepository->findBy([
+            'chantier' => $chantier,
+        ]);
+
+        foreach ($chantierEtapes as $chantierEtape) {
+            if ($chantierEtape->getEtape()) {
+                $chantierEtapesIndexed[$chantierEtape->getEtape()->getId()] = $chantierEtape;
+            }
+        }
+
+
         return $this->render('chantier/show.html.twig', [
             'chantier' => $chantier,
             'postes' => $postes,
             'chantierPostesIndexed' => $chantierPostesIndexed,
+            'chantierEtapesIndexed' => $chantierEtapesIndexed, 
         ]);
     }
 
@@ -150,6 +174,12 @@ final class ChantierController extends AbstractController
             $posteId = $chantierPoste->getPoste()->getId();
             $form->get('poste_' . $posteId . '_montantHT')->setData($chantierPoste->getMontantHT());
             $form->get('poste_' . $posteId . '_montantTTC')->setData($chantierPoste->getMontantTTC());
+            if ($form->has('poste_' . $posteId . '_nbJoursMo')) {
+            $form
+            ->get('poste_' . $posteId . '_nbJoursMo')
+            ->setData($chantierPoste->getNbJoursMo());
+            }
+
         }
 
         // Pré-remplir les valeurs des étapes existantes
@@ -213,6 +243,22 @@ final class ChantierController extends AbstractController
                     $chantierPoste->setPoste($poste);
                     $chantierPoste->setMontantHT($montantHT);
                     $chantierPoste->setMontantTTC($montantTTC);
+
+                    // ✅ AJOUT nbJoursMo
+                    if ($poste->getEquipe() === 1) {
+                        $fieldNbJours = 'poste_' . $poste->getId() . '_nbJoursMo';
+                        $chantierPoste->setNbJoursMo(
+                            $form->has($fieldNbJours) ? $form->get($fieldNbJours)->getData() : null
+                        );
+                    }
+                $chantierPoste->setNomPrestataire(
+                    $form->get('poste_'.$poste->getId().'_nomPrestataire')->getData()
+                );
+
+                $chantierPoste->setMontantPrestataire(
+                    $form->get('poste_'.$poste->getId().'_montantPrestataire')->getData()
+                );
+
                     $entityManager->persist($chantierPoste);
                 }
 

@@ -8,7 +8,13 @@
     {# ================= HEADER ================= #}
     <div class="header-fiche">
         <h1>Chantier : {{ chantier.ville }}</h1>
-        <span>Équipe :</span>
+        <span>
+         Équipe :
+            <strong>
+                {{ chantier.equipe ? chantier.equipe.nom : '—' }}
+            </strong>
+        </span>
+
 
         <div>
             <a href="{{ path('app_chantier_edit', {'id': chantier.id}) }}" class="btn-back">
@@ -94,6 +100,20 @@
                     <span class="value">{{ chantier.dateFin ? chantier.dateFin|date('d/m/Y') : '-' }}</span>
                 </div>
             </div>
+            {% if chantier.alerte %}
+    <div class="info-row-grid">
+        <div class="info-col" style="grid-column: 1 / -1;">
+            <span class="label">
+                <i class="bi bi-exclamation-triangle-fill" style="color: #d97706;"></i>
+                Alerte
+            </span>
+            <span class="value">
+                {{ chantier.alerte|nl2br }}
+            </span>
+        </div>
+    </div>
+{% endif %}
+
         </div>
     </div>
         {# ================= POSTE ================= #}
@@ -134,18 +154,87 @@
 
 
             {# ===== ETAPES ===== #}
+            {% set isPreChantier = poste.libelle == 'Pré-chantier' %}
             <div class="etapes-grid">
-                <span> nombre de jour travailler :</span>
+                {% if not isPreChantier %}
+                    <span>
+                        Montant des fournitures :
+                        <strong>
+                        
+                        </strong>
+                    </span>
+                {% endif %}
+
+                {% if poste.equipe == 1 %}
+                    <span>
+                        Nombre de jours travaillés :
+                        <strong>
+                            {{ cp and cp.nbJoursMo is not null ? cp.nbJoursMo : '-' }}
+                        </strong>
+                    </span>
+                {% elseif poste.presta == 1 %}
+                    {% if poste.presta == 1 and not isPreChantier %}
+                        <span>
+                            Prestataire :
+                            <strong>
+                                {{ cp and cp.nomPrestataire ? cp.nomPrestataire : '-' }}
+                            </strong>
+                        </span>
+
+                        <span>
+                            Montant prestataire :
+                            <strong>
+                                {{ cp and cp.montantPrestataire
+                                    ? cp.montantPrestataire|number_format(2, ',', ' ') ~ ' €'
+                                    : '-' }}
+                            </strong>
+                        </span>
+                    {% endif %}
+                {% endif %}
+                        
                 {% for etape in poste.etapes %}
                     {% if etape.archive == 0 %}
+                        {% set ce = chantierEtapesIndexed[etape.id] ?? null %}
+
                         <a class="etape-field"
                         href="{{ path('app_etape_show', {'id': etape.id}) }}">
+
                             <span class="etape-label">{{ etape.libelle }}</span>
+
+                            {% if ce %}
+                                <div class="etape-values" style="margin-top:4px; font-size:.85em; opacity:.85;">
+                                    
+                                    {% if ce.valText %}
+                                        <div> {{ ce.valText }}</div>
+                                    {% endif %}
+
+                                    {% if ce.valDate %}
+                                        <div> {{ ce.valDate|date('d/m/Y') }}</div>
+                                    {% endif %}
+
+                                    {% if ce.valDateHeure %}
+                                        <div> {{ ce.valDateHeure|date('d/m/Y H:i') }}</div>
+                                    {% endif %}
+
+                                    {% if ce.valBoolean is not null %}
+                                        <div>
+                                            {{ ce.valBoolean ? ' Oui' : ' Non' }}
+                                        </div>
+                                    {% endif %}
+
+                                    {% if ce.dateDecimal is not null %}
+                                        <div> {{ ce.dateDecimal }}</div>
+                                    {% endif %}
+                                </div>
+                            {% else %}
+                                <div style="font-size:.8em; opacity:.5;">
+                                    Futur information en rapport avec l'etape
+                                </div>
+                            {% endif %}
                         </a>
                     {% endif %}
-                {% else %}
-                    <small style="opacity:.6;">Aucune étape</small>
                 {% endfor %}
+
             </div>
         </details>
     {% endfor %}

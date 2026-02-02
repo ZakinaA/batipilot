@@ -13,8 +13,9 @@
     {% for poste in postes %}
         <details class="current">
             <summary>
-               <a href="{{ path('app_poste_show', {'id': poste.id}) }}">{{ poste.libelle }}</a>
-                <span class="count">{{ poste.etapes|length }}</span>
+               <a href="{{ path('app_poste_show', {'id': poste.id}) }}">{{ poste.libelle }}</a>            
+                <span class="toggle-arrow" data-toggle>▶</span>
+                <span class="count">{{ poste.etapes|length }}</span>  
             </summary>
 
 

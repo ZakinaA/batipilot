@@ -122,7 +122,6 @@ class ChantierType extends AbstractType
             'attr' => [
                 'class' => 'form-control',
                 'rows' => 3,
-                'placeholder' => 'Ex : Accès compliqué, client absent le matin, urgence particulière…'
                 ],
             ])
             ;

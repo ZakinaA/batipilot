@@ -11,7 +11,7 @@
     </div>
 
     {% for poste in postes %}
-        <details class="current">
+        <details class="current" data-random-border>
             <summary>
                 <a>{{ poste.libelle }}</a>
                 <span class="count">{{ poste.etapes|length }}</span>

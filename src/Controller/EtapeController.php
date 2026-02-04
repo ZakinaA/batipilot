@@ -33,14 +33,14 @@ final class EtapeController extends AbstractController
     {
         $etape = new Etape();
 
-        // 🔹 Récupération de l'id du poste depuis l'URL
+       
         $posteId = $request->query->get('poste');
 
         if ($posteId) {
             $poste = $posteRepository->find($posteId);
 
             if ($poste) {
-                // 🔥 Pré-remplissage du poste
+                
                 $etape->setPoste($poste);
             }
         }
@@ -57,12 +57,13 @@ final class EtapeController extends AbstractController
 
         return $this->render('etape/new.html.twig', [
             'etape' => $etape,
-            'form' => $form->createView(), // 👈 important
+            'form' => $form->createView(),
+            'poste' => $poste, 
         ]);
     }
 
 
-   // #[Route('/{id}', name: 'app_etape_show', methods: ['GET'])]
+  
    #[Route('/{id<\d+>}', name: 'app_etape_show', methods: ['GET'])]
     public function show(Etape $etape): Response
     {
@@ -71,7 +72,7 @@ final class EtapeController extends AbstractController
         ]);
     }
 
-    //#[Route('/{id}/edit', name: 'app_etape_edit', methods: ['GET', 'POST'])]
+    
     #[Route('/{id<\d+>}/edit', name: 'app_etape_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Etape $etape, EntityManagerInterface $entityManager): Response
     {
@@ -90,7 +91,7 @@ final class EtapeController extends AbstractController
         ]);
     }
 
-    //#[Route('/{id}', name: 'app_etape_delete', methods: ['POST'])]
+    
     #[Route('/{id<\d+>}', name: 'app_etape_delete', methods: ['POST'])]
     public function delete(Request $request, Etape $etape, EntityManagerInterface $entityManager): Response
     {

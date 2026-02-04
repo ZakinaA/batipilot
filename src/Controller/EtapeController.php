@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Repository\PosteRepository;
+
 
 #[Route('/etape')]
 final class EtapeController extends AbstractController
@@ -23,9 +25,26 @@ final class EtapeController extends AbstractController
     }
 
     #[Route('/new', name: 'app_etape_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        PosteRepository $posteRepository
+    ): Response
     {
         $etape = new Etape();
+
+        // 🔹 Récupération de l'id du poste depuis l'URL
+        $posteId = $request->query->get('poste');
+
+        if ($posteId) {
+            $poste = $posteRepository->find($posteId);
+
+            if ($poste) {
+                // 🔥 Pré-remplissage du poste
+                $etape->setPoste($poste);
+            }
+        }
+
         $form = $this->createForm(EtapeType::class, $etape);
         $form->handleRequest($request);
 
@@ -38,9 +57,10 @@ final class EtapeController extends AbstractController
 
         return $this->render('etape/new.html.twig', [
             'etape' => $etape,
-            'form' => $form,
+            'form' => $form->createView(), // 👈 important
         ]);
     }
+
 
    // #[Route('/{id}', name: 'app_etape_show', methods: ['GET'])]
    #[Route('/{id<\d+>}', name: 'app_etape_show', methods: ['GET'])]

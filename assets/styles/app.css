@@ -1,12 +1,10 @@
 
-        body { 
-            background-color: var(--bg); 
-            font-family: 'Segoe UI', system-ui, sans-serif; 
-            color: var(--text-dark); 
-            margin: 0; 
-            padding: 10px; 
-            background-color: #f2f2f2; 
-            font-family: Arial, sans-serif;
+        body {
+        background-color: #f2f2f2;
+        font-family: Arial, sans-serif;
+        color: var(--text-dark);
+        margin: 0;
+        padding: 10px;
         }
 
         .dashboard { max-width: 1100px; margin: 0 auto; }
@@ -65,7 +63,6 @@
         
         /* PROJECT ITEMS */
         .project-item { 
-            display: grid; 
             grid-template-columns: 1fr 220px; 
             align-items: center; 
             padding: 12px 20px; 
@@ -471,3 +468,349 @@
         .etape-field-full {
             grid-column: 1 / -1;
         }
+/* =====================================================
+   PAGE : CREATION CHANTIER (VERSION COMPACTE)
+===================================================== */
+
+.page-chantier-create {
+    --radius: 6px;
+}
+
+/* TITRE */
+.page-chantier-create h1 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+/* SECTIONS CLIENT / CHANTIER */
+.page-chantier-create .poste-section_ClCh {
+    padding: 12px 14px;
+    margin-bottom: 14px;
+    border-radius: var(--radius);
+    border: 1px solid #e5e7eb;
+}
+
+/* HEADER SECTION */
+.page-chantier-create .poste-header {
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+}
+
+.page-chantier-create .poste-header h4 {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* GRILLE CHAMPS */
+.page-chantier-create .etapes-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 6px 10px;
+    padding: 0;
+}
+
+/* CHAMP */
+.page-chantier-create .etape-field {
+    padding: 0;
+}
+
+.page-chantier-create .etape-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.page-chantier-create .form-control,
+.page-chantier-create select,
+.page-chantier-create input[type="text"],
+.page-chantier-create input[type="date"],
+.page-chantier-create input[type="datetime-local"] {
+    height: 26px;
+    font-size: 0.75rem;
+    padding: 2px 6px;
+}
+
+/* CHAMP FULL */
+.page-chantier-create .etape-field-full {
+    grid-column: 1 / -1;
+}
+
+/* =====================================================
+   POSTES & ETAPES
+===================================================== */
+
+.page-chantier-create .poste-section {
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    border-radius: var(--radius);
+    border-left-width: 3px;
+}
+
+/* HEADER POSTE */
+.page-chantier-create .poste-section .poste-header {
+    margin-bottom: 8px;
+}
+
+.page-chantier-create .poste-section h4 {
+    font-size: 0.85rem;
+}
+
+/* MONTANTS */
+.page-chantier-create .montant-field label {
+    font-size: 0.6rem;
+}
+
+.page-chantier-create .montant-field input {
+    height: 24px;
+    font-size: 0.7rem;
+    padding: 2px 4px;
+}
+
+/* ETAPES DANS POSTE */
+.page-chantier-create .poste-section .etapes-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 4px 8px;
+}
+
+.page-chantier-create .poste-section .etape-label {
+    font-size: 0.65rem;
+}
+
+.page-chantier-create .poste-section .form-control {
+    height: 24px;
+    font-size: 0.7rem;
+}
+
+/* =====================================================
+   CARD POSTES
+===================================================== */
+
+.page-chantier-create .card {
+    border-radius: var(--radius);
+    box-shadow: none;
+    border: 1px solid #e5e7eb;
+}
+
+.page-chantier-create .card-body {
+    padding: 10px;
+}
+
+/* =====================================================
+   BOUTONS
+===================================================== */
+
+.page-chantier-create .btn-lg {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+}
+
+/* =====================================================
+   ERREURS
+===================================================== */
+
+.page-chantier-create .form-error-message,
+.page-chantier-create .invalid-feedback {
+    font-size: 0.65rem;
+}
+/* =====================================================
+   PAGE CHANTIER – ULTRA COMPACT (2 POSTES / LIGNE)
+===================================================== */
+
+.page-chantier-create {
+    --radius: 5px;
+}
+
+/* TITRE */
+.page-chantier-create h1 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+/* ================= CLIENT / CHANTIER ================= */
+
+.page-chantier-create .poste-section_ClCh {
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    border-radius: var(--radius);
+}
+
+.page-chantier-create .poste-header {
+    margin-bottom: 6px;
+}
+
+.page-chantier-create .poste-header h4 {
+    font-size: 0.8rem;
+}
+
+/* Champs */
+.page-chantier-create .etapes-grid {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 4px 8px;
+}
+
+.page-chantier-create .etape-label {
+    font-size: 0.6rem;
+}
+
+.page-chantier-create .form-control,
+.page-chantier-create select,
+.page-chantier-create input {
+    height: 24px;
+    font-size: 0.7rem;
+    padding: 2px 5px;
+}
+
+/* ================= POSTES ================= */
+
+/* Grille de postes */
+.page-chantier-create .card-body {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 8px;
+}
+
+/* Carte poste */
+.page-chantier-create .poste-section {
+    margin: 0;
+    padding: 8px 10px;
+    border-radius: var(--radius);
+    border-left-width: 3px;
+}
+
+/* Header poste */
+.page-chantier-create .poste-section .poste-header {
+    margin-bottom: 6px;
+}
+
+/* Titre poste */
+.page-chantier-create .poste-section h4 {
+    font-size: 0.8rem;
+}
+
+/* Montants sur une seule ligne */
+.page-chantier-create .poste-section .poste-header > div {
+    gap: 6px;
+}
+
+.page-chantier-create .montant-field {
+    min-width: 90px;
+}
+
+.page-chantier-create .montant-field label {
+    font-size: 0.55rem;
+}
+
+.page-chantier-create .montant-field input {
+    height: 22px;
+    font-size: 0.65rem;
+}
+
+/* ================= ETAPES ================= */
+
+.page-chantier-create .poste-section .etapes-grid {
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 3px 6px;
+}
+
+.page-chantier-create .poste-section .etape-label {
+    font-size: 0.6rem;
+}
+
+.page-chantier-create .poste-section .form-control {
+    height: 22px;
+    font-size: 0.65rem;
+    padding: 1px 4px;
+}
+
+/* Radios oui/non ultra compacts */
+.page-chantier-create input[type="radio"] {
+    transform: scale(0.85);
+    margin-right: 2px;
+}
+
+/* ================= BOUTONS ================= */
+
+.page-chantier-create .btn-lg {
+    padding: 5px 10px;
+    font-size: 0.75rem;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 900px) {
+    .page-chantier-create .card-body {
+        grid-template-columns: 1fr;
+    }
+}
+/* ================= OUI / NON – FIX PRO ================= */
+
+/* Conteneur Symfony des radios */
+.page-chantier-create .poste-section .etape-input {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Chaque radio + label */
+.page-chantier-create .poste-section .etape-input > div {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Input radio */
+.page-chantier-create .poste-section input[type="radio"] {
+    transform: scale(0.9);
+    margin: 0;
+    cursor: pointer;
+}
+
+/* Label Oui / Non */
+.page-chantier-create .poste-section label {
+    font-size: 0.65rem;
+    margin: 0;
+    cursor: pointer;
+    white-space: nowrap;
+}
+/* ================= HT / TTC SUR UNE LIGNE ================= */
+
+.page-chantier-create .poste-section .poste-header > div {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: nowrap;
+    gap: 8px;
+}
+
+/* Bloc HT / TTC */
+.page-chantier-create .montant-field {
+    display: flex;
+    flex-direction: column;
+    min-width: 90px;
+}
+
+/* Labels */
+.page-chantier-create .montant-field label {
+    font-size: 0.55rem;
+    line-height: 1;
+    margin-bottom: 2px;
+    white-space: nowrap;
+}
+
+/* Inputs */
+.page-chantier-create .montant-field input {
+    height: 22px;
+    font-size: 0.65rem;
+    padding: 2px 4px;
+}
+
+/* TTC readonly plus discret */
+.page-chantier-create .montant-field input[readonly] {
+    background: #f8fafc;
+    font-weight: 600;
+}
+
+/* Nombre de jours (reste aligné) */
+.page-chantier-create .montant-field:last-child {
+    min-width: 110px;
+}

@@ -1,0 +1,51 @@
+name: Déploiement Symfony
+
+# Déclenchement : à chaque push sur la branche main
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Récupérer le code du repo
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2️⃣ Installer PHP et extensions nécessaires pour Symfony
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, intl, pdo, pdo_mysql, zip
+          coverage: none
+
+      # 3️⃣ Installer Composer et dépendances
+      - name: Install Composer dependencies
+        run: composer install --no-dev --optimize-autoloader
+
+      # 4️⃣ Se connecter au serveur via SSH et déployer
+      - name: Déployer sur le serveur
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: 22
+          script: |
+            # Aller dans le dossier du projet sur le serveur
+            cd /var/www/html/batipilot || exit
+            # Mettre à jour le code
+            git pull origin main
+            # Installer les dépendances
+            composer install --no-dev --optimize-autoloader
+            # Lancer les migrations si besoin
+            # php bin/console doctrine:migrations:migrate --no-interaction
+            # Vider le cache
+            php bin/console cache:clear
+            # S'assurer que www-data possède les bons droits sur var et public
+            chown -R www-data:www-data /var/www/html/batipilot/var /var/www/html/batipilot/public
+            chmod -R 775 /var/www/html/batipilot/var /var/www/html/batipilot/public

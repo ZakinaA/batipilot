@@ -1,42 +1,15 @@
-name: Déploiement Symfony
-
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-      # 1️⃣ Récupérer le code du repo
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      # 2️⃣ Installer Composer (si pas déjà sur le runner)
-      - name: Setup Composer
-        uses: php-actions/composer@v8
-        with:
-          php-version: '8.2'  # utilisé pour composer uniquement
-
-      # 3️⃣ Installer les dépendances côté GitHub (optionnel, pour vérifier)
-      - name: Install Composer dependencies
-        run: composer install --no-dev --optimize-autoloader
-
-      # 4️⃣ Déployer sur le serveur via SSH
-      - name: Déployer sur le serveur
-        uses: appleboy/ssh-action@v0.1.7
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          port: 22
-          script: |
-            cd /var/www/html/batipilot || exit
-            git pull origin main
-            composer install --no-dev --optimize-autoloader
-            # php bin/console doctrine:migrations:migrate --no-interaction
-            php bin/console cache:clear
-            chown -R www-data:www-data /var/www/html/batipilot/var /var/www/html/batipilot/public
-            chmod -R 775 /var/www/html/batipilot/var /var/www/html/batipilot/public
+- name: Déployer sur le serveur
+  uses: appleboy/ssh-action@v0.1.7
+  with:
+    host: ${{ secrets.SERVER_HOST }}
+    username: ${{ secrets.SERVER_USER }}
+    key: ${{ secrets.SERVER_SSH_KEY }}
+    port: 22
+    script: |
+      cd /var/www/html/batipilot || exit
+      git pull origin main
+      composer install --no-dev --optimize-autoloader
+      #php bin/console doctrine:migrations:migrate --no-interaction
+      php bin/console cache:clear
+      chown -R www-data:www-data /var/www/html/batipilot/var /var/www/html/batipilot/public
+      chmod -R 775 /var/www/html/batipilot/var /var/www/html/batipilot/public

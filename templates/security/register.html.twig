@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un compte{% endblock %}
+
+{% block body %}
+<h1 class="h3 mb-3">Créer un compte</h1>
+
+{% for message in app.flashes('error') %}
+    <div class="alert alert-danger">{{ message }}</div>
+{% endfor %}
+
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">{{ message }}</div>
+{% endfor %}
+
+<form method="post">
+    <label>Nom</label>
+    <input type="text" name="last_name" class="form-control mb-2" required>
+
+    <label>Prénom</label>
+    <input type="text" name="first_name" class="form-control mb-2" required>
+
+
+    <label>Mot de passe</label>
+    <input type="password" name="password" class="form-control mb-3" required>
+
+    <button class="btn btn-primary w-100">
+        Créer le compte
+    </button>
+</form>
+
+<hr>
+
+<a href="{{ path('app_login') }}">Retour à la connexion</a>
+{% endblock %}

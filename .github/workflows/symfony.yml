@@ -1,6 +1,5 @@
-name: Deploy Symfony
+name: Déploiement Symfony
 
-# Déclenche le workflow à chaque push sur main
 on:
   push:
     branches:
@@ -10,44 +9,25 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    # Variables d'environnement pour tout le job
-    env:
-      APP_DIR: /var/www/html/batipilot
-      APP_USER: ${{ secrets.APP_USER }}
-      WEB_USER: ${{ secrets.WEB_USER }}
-      ENV: prod
-
     steps:
-      # 1️⃣ Récupérer le code depuis GitHub
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2️⃣ Installer PHP et extensions nécessaires
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
+      - name: Déployer sur le serveur
+        uses: appleboy/ssh-action@v0.1.7
         with:
-          php-version: '8.2'
-          extensions: mbstring, pdo, pdo_mysql
-          ini-values: post_max_size=256M, upload_max_filesize=256M
-
-      # 3️⃣ Installer Composer
-      - name: Install Composer dependencies
-        run: composer install --no-dev --optimize-autoloader
-
-      # 4️⃣ Déploiement Symfony
-      - name: Deploy Symfony application
-        run: |
-          cd $APP_DIR || exit 1
-
-          # Git
-          git fetch origin
-          git reset --hard origin/main
-          git pull origin main
-
-          # Supprimer cache et logs pour éviter les problèmes de permissions
-          rm -rf var/cache/* var/log/*
-
-          # Exécuter Symfony CLI avec l'utilisateur web pour que permissions soient correctes
-          sudo -u $WEB_USER php bin/console cache:clear
-          #sudo -u $WEB_USER php bin/console assets:install public
-          #sudo -u $WEB_USER php bin/console importmap:install
+          host: ${{ secrets.SERVER_HOST }}
+          port: ${{ secrets.SERVER_PORT }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            cd /var/www/html/batipilot || exit
+            #git fetch origin
+            #git reset --hard origin/main
+            git pull origin main
+            composer install --no-dev --optimize-autoloader
+            #php bin/console doctrine:migrations:migrate --no-interaction
+            php bin/console cache:clear
+            #chown -R batipilot:www-data /var/www/html/batipilot/var
+            #chown -R batipilot:www-data /var/www/html/batipilot/public
+            #chmod -R 775 /var/www/html/batipilot/var /var/www/html/batipilot/public

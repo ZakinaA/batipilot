@@ -1,21 +1,20 @@
-name: Déploiement Symfony
+name: Deploy Symfony Production
 
 on:
   pull_request:
-    types: [closed]  # déclenchement à la fermeture d'une PR
+    types: [closed]
     branches:
       - main
 
 jobs:
   deploy:
-    if: github.event.pull_request.merged == true  # ne se lance que si la PR est mergée
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Déployer sur le serveur
+      - name: Deploy via SSH
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -23,9 +22,38 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            cd /var/www/html/batipilot || exit
-            git pull origin main
+            set -e
+
+            APP_DIR=/var/www/html/batipilot
+            RELEASE=$(date +"%Y%m%d%H%M%S")
+            RELEASE_DIR=$APP_DIR/releases/$RELEASE
+
+            echo "Create release directory"
+            mkdir -p $RELEASE_DIR
+
+            echo "Clone repository"
+            git clone --depth 1 -b main git@github.com:ZakinaA/batipilot.git $RELEASE_DIR
+
+            cd $RELEASE_DIR
+
+            echo "Shared files"
+            ln -s $APP_DIR/shared/.env.local .env.local
+            rm -rf var
+            ln -s $APP_DIR/shared/var var
+
+            echo "Install dependencies"
             composer install --no-dev --optimize-autoloader
-            # php bin/console doctrine:migrations:migrate --no-interaction
-            php bin/console cache:clear
-            # chown et chmod si nécessaire
+
+            echo "Symfony cache"
+            php bin/console cache:clear --env=prod
+
+            echo "Switch symlink"
+            ln -sfn $RELEASE_DIR $APP_DIR/current
+
+            echo "Fix permissions"
+            chown -R www-data:www-data $APP_DIR
+
+            echo "Cleanup old releases"
+            ls -dt $APP_DIR/releases/* | tail -n +6 | xargs rm -rf || true
+
+            echo "Deploy finished"

@@ -134,7 +134,7 @@ class Poste
     public function removeEtape(Etape $etape): static
     {
         if ($this->etapes->removeElement($etape)) {
-            // set the owning side to null (unless already changed)
+           
             if ($etape->getPoste() === $this) {
                 $etape->setPoste(null);
             }
@@ -164,7 +164,7 @@ class Poste
     public function removeChantierPoste(ChantierPoste $chantierPoste): static
     {
         if ($this->chantierPostes->removeElement($chantierPoste)) {
-            // set the owning side to null (unless already changed)
+            
             if ($chantierPoste->getPoste() === $this) {
                 $chantierPoste->setPoste(null);
             }
@@ -228,14 +228,14 @@ class Poste
     public function removeChantierPrestation(ChantierPresta $chantierPrestation): static
     {
         if ($this->chantierPrestations->removeElement($chantierPrestation)) {
-            // set the owning side to null (unless already changed)
+           
             if ($chantierPrestation->getPoste() === $this) {
                 $chantierPrestation->setPoste(null);
             }
         }
 
         return $this;
-    }
+    } 
 
 
 }

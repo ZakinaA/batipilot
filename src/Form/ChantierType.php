@@ -216,8 +216,15 @@ class ChantierType extends AbstractType
                 ];
 
                 if ($formType === ChoiceType::class) {
-                    $options['choices'] = ['Oui' => 'oui', 'Non' => 'non'];
+                    $options['choices'] = [
+                        'Oui' => 'oui',
+                        'Non' => 'non',
+                    ];
                     $options['expanded'] = true;
+                    $options['multiple'] = false;
+                    $options['required'] = true;      
+                    $options['placeholder'] = false;  
+
                 } elseif (in_array($formType, [DateType::class, DateTimeType::class])) {
                     $options['widget'] = 'single_text';
                 }
@@ -232,7 +239,7 @@ class ChantierType extends AbstractType
     {
         // Mapper les IDs d'EtapeFormat aux types de formulaire Symfony
         return match ($etapeFormatId) {
-            1 => ChoiceType::class,      // Oui, non, sans objet
+            1 => ChoiceType::class,      // Oui, non
             2 => DateType::class,         // Date
             3 => DateTimeType::class,     // Date et heure
             4 => TextType::class,         // Texte

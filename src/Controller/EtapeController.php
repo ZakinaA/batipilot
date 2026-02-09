@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Repository\PosteRepository;
+
 
 #[Route('/etape')]
 final class EtapeController extends AbstractController
@@ -23,9 +25,26 @@ final class EtapeController extends AbstractController
     }
 
     #[Route('/new', name: 'app_etape_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        PosteRepository $posteRepository
+    ): Response
     {
         $etape = new Etape();
+
+       
+        $posteId = $request->query->get('poste');
+
+        if ($posteId) {
+            $poste = $posteRepository->find($posteId);
+
+            if ($poste) {
+                
+                $etape->setPoste($poste);
+            }
+        }
+
         $form = $this->createForm(EtapeType::class, $etape);
         $form->handleRequest($request);
 
@@ -38,11 +57,13 @@ final class EtapeController extends AbstractController
 
         return $this->render('etape/new.html.twig', [
             'etape' => $etape,
-            'form' => $form,
+            'form' => $form->createView(),
+            'poste' => $poste, 
         ]);
     }
 
-   // #[Route('/{id}', name: 'app_etape_show', methods: ['GET'])]
+
+  
    #[Route('/{id<\d+>}', name: 'app_etape_show', methods: ['GET'])]
     public function show(Etape $etape): Response
     {
@@ -51,7 +72,7 @@ final class EtapeController extends AbstractController
         ]);
     }
 
-    //#[Route('/{id}/edit', name: 'app_etape_edit', methods: ['GET', 'POST'])]
+    
     #[Route('/{id<\d+>}/edit', name: 'app_etape_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Etape $etape, EntityManagerInterface $entityManager): Response
     {
@@ -70,7 +91,7 @@ final class EtapeController extends AbstractController
         ]);
     }
 
-    //#[Route('/{id}', name: 'app_etape_delete', methods: ['POST'])]
+    
     #[Route('/{id<\d+>}', name: 'app_etape_delete', methods: ['POST'])]
     public function delete(Request $request, Etape $etape, EntityManagerInterface $entityManager): Response
     {

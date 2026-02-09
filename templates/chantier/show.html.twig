@@ -28,7 +28,7 @@
 
     {# ================= FLASH ================= #}
     {% for message in app.flashes('success') %}
-        <div class="card" style="border-top-color: var(--success); margin-bottom: 20px;">
+        <div class="card" data-random-border style="border-top-color: var(--success); margin-bottom: 20px;">
             {{ message }}
         </div>
     {% endfor %}
@@ -36,7 +36,7 @@
     {# ================= INFOS ================= #}
     <div class="grid-info">
 
-        <div class="card">
+        <div class="card" data-random-border>
             <h2>Client</h2>
             {% if chantier.client %}
                 <div class="info-row-grid">
@@ -65,7 +65,7 @@
             {% endif %}
         </div>
 
-        <div class="card">
+        <div class="card" data-random-border>
             <h2>Chantier</h2>
 
             <div class="info-row-grid">
@@ -120,7 +120,7 @@
                     {% for poste in postes %}
                 {% set cp = chantierPostesIndexed[poste.id] ?? null %}
 
-                <details class="poste-{{ poste.slug ?? 'tech' }} poste-details">
+                <details class="poste-{{ poste.slug ?? 'tech' }} poste-details" data-random-border>
                     <summary class="poste-summary">
 
             <div class="poste-left">

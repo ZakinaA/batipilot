@@ -6,8 +6,15 @@
 <div class="container mt-5">
 
     <h1 class="mb-4">
-        <i class="bi bi-list-check"></i> Créer une nouvelle étape
-    </h1>
+    <i class="bi bi-list-check"></i>
+    Créer une nouvelle étape pour
+    {% if poste %}
+        <small class="bi bi-list-check">
+            {{ poste.libelle }}
+        </small>
+    {% endif %}
+    </h1>   
+
 
     {{ form_start(form, {'attr': {'class': 'etape-form'}}) }}
 

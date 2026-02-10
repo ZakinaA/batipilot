@@ -32,7 +32,7 @@ final class EtapeController extends AbstractController
     ): Response
     {
         $etape = new Etape();
-
+        $poste = null;
        
         $posteId = $request->query->get('poste');
 

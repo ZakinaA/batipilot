@@ -837,3 +837,26 @@
             border-color: var(--danger);
             color: var(--danger);
         }
+/* ===== BOUTON AJOUT ETAPE DANS POSTE ===== */
+
+.btn-add-etape {
+    background: var(--primary);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.btn-add-etape:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+    color: #fff;
+}
+
+.btn-add-etape:active {
+    transform: translateY(0);
+}

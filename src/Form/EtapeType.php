@@ -16,7 +16,7 @@ class EtapeType extends AbstractType
     {
         $builder
             ->add('libelle')
-            ->add('display_field')
+          
             ->add('archive')
             ->add('etapeFormat', EntityType::class, [
                 'class' => EtapeFormat::class,

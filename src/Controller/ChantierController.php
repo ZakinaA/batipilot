@@ -251,13 +251,21 @@ final class ChantierController extends AbstractController
                             $form->has($fieldNbJours) ? $form->get($fieldNbJours)->getData() : null
                         );
                     }
-                $chantierPoste->setNomPrestataire(
-                    $form->get('poste_'.$poste->getId().'_nomPrestataire')->getData()
-                );
+                $fieldNomPresta = 'poste_'.$poste->getId().'_nomPrestataire';
+                $fieldMontantPresta = 'poste_'.$poste->getId().'_montantPrestataire';
 
-                $chantierPoste->setMontantPrestataire(
-                    $form->get('poste_'.$poste->getId().'_montantPrestataire')->getData()
-                );
+                if ($form->has($fieldNomPresta)) {
+                    $chantierPoste->setNomPrestataire(
+                        $form->get($fieldNomPresta)->getData()
+                    );
+                }
+
+                if ($form->has($fieldMontantPresta)) {
+                    $chantierPoste->setMontantPrestataire(
+                        $form->get($fieldMontantPresta)->getData()
+                    );
+                }
+
 
                     $entityManager->persist($chantierPoste);
                 }

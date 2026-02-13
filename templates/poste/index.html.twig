@@ -13,6 +13,7 @@
     {% for poste in postes %}
         <details class="current" data-random-border>
             <summary>
+            <span class="toggle-arrow" data-toggle>▶</span>
                 <div style="display:flex; align-items:center; gap:10px;">
                     <a href="{{ path('app_poste_show', {'id': poste.id}) }}">
                         {{ poste.libelle }}

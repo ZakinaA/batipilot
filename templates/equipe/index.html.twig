@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Equipes{% endblock %}
+
+{% block body %}
+<div class="dashboard">
+
+    <div class="top-bar">
+        <h1>Equipes</h1>
+    </div>
+
+    <div class="grid-info">
+        {% for equipe in equipes %}
+            <div class="card">
+                <h2>Equipe</h2>
+
+                <div class="info-row-grid">
+                    <div class="info-col">
+                        <span class="label">Nom</span>
+                        <span class="value">{{ equipe.nom }}</span>
+                    </div>
+                </div>
+
+                <div style="margin-top:15px;">
+                    <a class="btn-action" href="{{ path('app_equipe_edit', {'id': equipe.id}) }}">
+                        Modifier
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

@@ -22,7 +22,7 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd /var/www/html/batipilot || exit
-            #git fetch origin
+            ##git fetch origin
             #git reset --hard origin/main
             git pull origin main
             composer install --no-dev --optimize-autoloader

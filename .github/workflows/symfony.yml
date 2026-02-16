@@ -22,12 +22,19 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd /var/www/html/batipilot || exit
-            ##git fetch origin
-            #git reset --hard origin/main
+
+            echo "Pull latest code"
             git pull origin main
+
+            echo "Install dependencies"
             composer install --no-dev --optimize-autoloader
-            #php bin/console doctrine:migrations:migrate --no-interaction
-            php bin/console cache:clear
-            #chown -R batipilot:www-data /var/www/html/batipilot/var
-            #chown -R batipilot:www-data /var/www/html/batipilot/public
-            #chmod -R 775 /var/www/html/batipilot/var /var/www/html/batipilot/public
+
+            echo "Clear & warmup prod cache"
+            php bin/console cache:clear --env=prod
+            php bin/console cache:warmup --env=prod
+
+            echo "Fix permissions"
+            chown -R www-data:www-data /var/www/html/batipilot
+            chmod -R 775 var public
+
+            echo "Deploy finished"

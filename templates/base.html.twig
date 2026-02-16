@@ -6,6 +6,71 @@
 
     {{ importmap('app') }}
     <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+
+    <!-- Styles minimal pour logo et sidebar -->
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;            /* largeur fixe de la sidebar */
+            background-color: #f5f5f5;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .nomSite {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .nomSite .logo {
+            width: 150px;             /* largeur fixe du logo */
+            height: auto;             /* garde les proportions */
+            display: block;
+            margin: 0 auto 10px;      /* centré + espace en dessous */
+        }
+
+        .sidebar h1 {
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        .menu, .submenu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu-item {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .submenu li {
+            margin-left: 15px;
+            margin-top: 5px;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+            background-color: #fff;
+        }
+
+        .btn-logout {
+            margin-top: 20px;
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
@@ -55,11 +120,9 @@
 
     <!-- CONTENU -->
     <main class="content">
-
         <div class="dashboard">
             {% block body %}{% endblock %}
         </div>
-
     </main>
 
 </div>

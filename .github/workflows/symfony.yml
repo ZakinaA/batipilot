@@ -13,7 +13,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Déployer sur le serveur avec logs
+      - name: Déployer sur le serveur
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -21,27 +21,13 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            set -e  # Arrête le script si une commande échoue
-            cd /var/www/html/batipilot || exit 1
-
-            echo "=== Pull des dernières modifications ==="
-            git fetch origin main
-            git reset --hard origin/main
-
-            echo "=== Installation des dépendances PHP ==="
-            composer install --no-dev --optimize-autoloader --prefer-dist
-
-            echo "=== Nettoyage et warmup du cache prod ==="
-            php bin/console cache:clear --env=prod --no-debug
-            php bin/console cache:warmup --env=prod --no-debug
-
-            echo "=== Vérification et fix des permissions ==="
-            # Symfony a besoin d'écrire dans var et éventuellement public/uploads
-            #chown -R batipilot:www-data var || echo "⚠️ Impossible de changer ownership de var"
-            #chmod -R 777 var || echo "⚠️ Impossible de changer permissions de var"
-
-            # Décommenter si tu as un dossier uploads
-            # chown -R www-data:www-data public/uploads || echo "⚠️ Impossible de changer ownership de uploads"
-            # chmod -R 775 public/uploads || echo "⚠️ Impossible de changer permissions de uploads"
-
-            echo "✅ Déploiement terminé avec succès"
+            cd /var/www/html/batipilot || exit
+            #git fetch origin
+            #git reset --hard origin/main
+            git pull origin main
+            composer install --no-dev --optimize-autoloader
+            #php bin/console doctrine:migrations:migrate --no-interaction
+            php bin/console cache:clear
+            chown -R batipilot:www-data /var/www/html/batipilot/var
+            chown -R batipilot:www-data /var/www/html/batipilot/public
+            chmod -R 775 /var/www/html/batipilot/var /var/www/html/batipilot/public

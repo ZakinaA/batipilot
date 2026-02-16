@@ -37,8 +37,8 @@ jobs:
 
             echo "=== Vérification et fix des permissions ==="
             # Symfony a besoin d'écrire dans var et éventuellement public/uploads
-            chown -R www-data:www-data var || echo "⚠️ Impossible de changer ownership de var"
-            chmod -R 775 var || echo "⚠️ Impossible de changer permissions de var"
+            chown -R batipilot:www-data var || echo "⚠️ Impossible de changer ownership de var"
+            chmod -R 777 var || echo "⚠️ Impossible de changer permissions de var"
 
             # Décommenter si tu as un dossier uploads
             # chown -R www-data:www-data public/uploads || echo "⚠️ Impossible de changer ownership de uploads"

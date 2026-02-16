@@ -13,7 +13,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Déployer sur le serveur
+      - name: Déployer sur le serveur avec logs
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -21,20 +21,27 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            cd /var/www/html/batipilot || exit
+            set -e  # Arrête le script si une commande échoue
+            cd /var/www/html/batipilot || exit 1
 
-            echo "Pull latest code"
-            git pull origin main
+            echo "=== Pull des dernières modifications ==="
+            git fetch origin main
+            git reset --hard origin/main
 
-            echo "Install dependencies"
-            composer install --no-dev --optimize-autoloader
+            echo "=== Installation des dépendances PHP ==="
+            composer install --no-dev --optimize-autoloader --prefer-dist
 
-            echo "Clear & warmup prod cache"
-            php bin/console cache:clear --env=prod
-            php bin/console cache:warmup --env=prod
+            echo "=== Nettoyage et warmup du cache prod ==="
+            php bin/console cache:clear --env=prod --no-debug
+            php bin/console cache:warmup --env=prod --no-debug
 
-            echo "Fix permissions"
-            chown -R www-data:www-data /var/www/html/batipilot
-            chmod -R 775 var public
+            echo "=== Vérification et fix des permissions ==="
+            # Symfony a besoin d'écrire dans var et éventuellement public/uploads
+            chown -R www-data:www-data var || echo "⚠️ Impossible de changer ownership de var"
+            chmod -R 775 var || echo "⚠️ Impossible de changer permissions de var"
 
-            echo "Deploy finished"
+            # Décommenter si tu as un dossier uploads
+            # chown -R www-data:www-data public/uploads || echo "⚠️ Impossible de changer ownership de uploads"
+            # chmod -R 775 public/uploads || echo "⚠️ Impossible de changer permissions de uploads"
+
+            echo "✅ Déploiement terminé avec succès"
